@@ -64,18 +64,22 @@ console.log('\nLanding');
 check('PWA düğmesi /app/ adresine gider', (html.match(/href="app\/"/g) || []).length >= 3);
 check('Windows kurulum bağlantısı doğru', html.indexOf(installerName) !== -1);
 check('kılavuz PDF bağlantısı var', html.indexOf('href="kilavuz.pdf"') !== -1);
-check('kılavuz PDF gömülü', html.indexOf('<object class="pdf-frame"') !== -1);
+check('kılavuz kapağı ve PDF bağlantısı var', html.indexOf('class="book"') !== -1 && html.indexOf('href="kilavuz.pdf"') !== -1);
 check('manifest bağlantısı var', html.indexOf('rel="manifest"') !== -1);
 check('ana ekrana ekleme adımları var', html.indexOf('Ana Ekrana Ekle') !== -1);
 check('Android yükleme adımı var', html.indexOf('Uygulamayı yükle') !== -1);
-check('kurulduğunda landing açılmaz açıklaması var',
-  html.indexOf('bu indirme sayfası bir daha görünmez') !== -1);
+check('kurulduğunda doğrudan uygulama açılır',
+  html.indexOf("location.replace('app/')") !== -1);
 check('standalone modda uygulamaya yönlendirme var',
   html.indexOf('display-mode: standalone') !== -1 && html.indexOf("location.replace('app/')") !== -1);
 check('OAuth dönüşünde uygulamaya yönlendirme var',
   html.indexOf('access_token=') !== -1 && html.indexOf("location.replace('app/' + query + hash)") !== -1);
-check('landing stili yeni tasarımla aynı', css.indexOf('--bg: #0d0e11') !== -1);
-check('respond düzeni var', css.indexOf('@media (max-width: 720px)') !== -1);
+check('landing stili yeni tasarımla aynı', css.indexOf('--paper: #f4efe5') !== -1);
+check('responsive düzeni var', css.indexOf('@media (max-width: 860px)') !== -1);
+check('İngilizce film ve kapak var', exists(path.join(SITE, 'tanitim-en.mp4')) && exists(path.join(SITE, 'tanitim-en-kapak.png')));
+check('film dili değiştirir', html.indexOf('data-src-en="tanitim-en.mp4"') !== -1 && read(path.join(SITE, 'site.js')).indexOf('data-src-') !== -1);
+check('dil değiştirici var', html.indexOf('data-set-lang="en"') !== -1 && html.indexOf('site.js') !== -1);
+check('gereksiz Duyu alt bilgisi yok', html.indexOf('Duyu-small (Kaan') === -1);
 
 console.log('\nKök manifest (kurulan kısayol)');
 check('start_url app/', rootManifest.start_url === 'app/');
@@ -90,7 +94,7 @@ console.log('\nPWA (/app/)');
 ['index.html', 'app.js', 'style.css', 'manifest.json', 'service-worker.js',
  'guide.js', 'guide-content.js', 'yaznot-kullanim-kilavuzu.pdf',
  'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png',
- 'stt/stt-app.js', 'stt/ds-core.js', 'stt/ort-wasm-simd-threaded.wasm'].forEach(function (f) {
+ 'stt/stt-app.js', 'stt/ds-core.js', 'stt/ort-wasm-simd-threaded.wasm', 'i18n.js', 'guide-content.en.js'].forEach(function (f) {
   check('app dosyası var: ' + f, exists(path.join(APP, f)));
 });
 
@@ -107,6 +111,7 @@ check('app manifest ikonları mevcut', (appManifest.icons || []).every(function 
 check('app service worker var', sw.indexOf('CACHE_NAME') !== -1);
 check('app service worker kılavuzu önbelleğe alır', sw.indexOf('yaznot-kullanim-kilavuzu.pdf') !== -1);
 check('app service worker STT çekirdeğini önbelleğe alır', sw.indexOf('stt/ds-core.js') !== -1);
+check('app service worker dil dosyalarını önbelleğe alır', sw.indexOf('i18n.js') !== -1 && sw.indexOf('guide-content.en.js') !== -1);
 check('app kılavuz PDF uygulamada', exists(path.join(APP, 'yaznot-kullanim-kilavuzu.pdf')));
 check('app dosyaları PWA üretimiyle aynı', read(path.join(APP, 'app.js')) === read(path.join(PWA, 'app.js')));
 check('app stili PWA ile aynı', read(path.join(APP, 'style.css')) === read(path.join(PWA, 'style.css')));

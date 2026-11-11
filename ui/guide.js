@@ -8,7 +8,8 @@
 (function () {
   'use strict';
 
-  var data = window.YAZNOT_GUIDE || { sections: [] };
+  var en = !!(window.YazNotI18n && window.YazNotI18n.lang() === 'en');
+  var data = (en && window.YAZNOT_GUIDE_EN) || window.YAZNOT_GUIDE || { sections: [] };
   var modal = null;
   var sheet = null;
   var bodyEl = null;
@@ -40,8 +41,11 @@
 
     var sections = Array.isArray(data.sections) ? data.sections : [];
     if (!sections.length) {
-      bodyEl.innerHTML = '<section class="guide-section"><h2>Kılavuz hazırlanıyor</h2>' +
-        '<p>Bu sürümde kılavuz içeriği bulunamadı. PDF dosyasını indirerek okuyabilirsin.</p></section>';
+      bodyEl.innerHTML = en
+        ? '<section class="guide-section"><h2>Guide is being prepared</h2>' +
+          '<p>Guide content was not found in this version. You can download the PDF.</p></section>'
+        : '<section class="guide-section"><h2>Kılavuz hazırlanıyor</h2>' +
+          '<p>Bu sürümde kılavuz içeriği bulunamadı. PDF dosyasını indirerek okuyabilirsin.</p></section>';
       return;
     }
 
@@ -50,7 +54,7 @@
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'guide-toc-btn' + (index === 0 ? ' active' : '');
-      btn.textContent = section.title || ('Bölüm ' + (index + 1));
+      btn.textContent = section.title || ((en ? 'Section ' : 'Bölüm ') + (index + 1));
       btn.setAttribute('data-target', id);
       btn.addEventListener('click', function () {
         var target = document.getElementById(id);

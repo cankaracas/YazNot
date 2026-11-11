@@ -791,7 +791,7 @@
       return;
     }
     var d = new Date(state.manifest.installedAt || Date.now());
-    var date = d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    var date = d.toLocaleDateString((window.YazNotI18n && window.YazNotI18n.locale()) || 'tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     el.footInfo.textContent = 'Model cihazda · ' + formatBytes(state.manifest.bytes || TOTAL_BYTES) + ' · ' + date;
   }
 

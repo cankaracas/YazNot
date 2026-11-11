@@ -1,0 +1,848 @@
+<!-- ÜRETİLMİŞ DOSYA — elle düzenlemeyin. Kaynak: ui/index.html + web/head.fragment.html (npm run web) -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>YazNot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111216">
+<meta name="color-scheme" content="dark light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="YazNot">
+<meta name="application-name" content="YazNot">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="Bulut senkronlu not alma ve yazma uygulaması; cihazda sesten metne.">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<script src="supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="i18n.js"></script>
+<script src="platform.js"></script>
+<script src="cloud-api.js"></script>
+<script src="auth.js" defer></script>
+<script src="stt/stt-app.js" defer></script>
+<script src="guide-content.js" defer></script>
+<script src="guide-content.en.js" defer></script>
+<script src="guide.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16.2 16.2 21 21"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" class="solid"/><circle cx="12" cy="12" r="1.7" class="solid"/><circle cx="19" cy="12" r="1.7" class="solid"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 13.5V6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7"/><path d="M4 13.5h4l1.6 2.4h4.8L16 13.5h4v4A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9.5 4h5M7 7l.8 12.2A1.8 1.8 0 0 0 9.6 21h4.8a1.8 1.8 0 0 0 1.8-1.8L17 7"/><path d="M10.5 11v6M13.5 11v6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10.6 5.2 8.6 4.5 6.4 4.5c-.9 0-1.7.1-2.4.3v14c.7-.2 1.6-.3 2.4-.3 2.2 0 4.2.7 5.6 2 1.4-1.3 3.4-2 5.6-2 .9 0 1.7.1 2.4.3v-14c-.7-.2-1.6-.3-2.4-.3-2.2 0-4.2.7-5.6 2z"/><path d="M12 6.5V21"/></symbol>
+  <symbol id="i-select" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M8.5 12.3l2.4 2.4 4.6-5"/></symbol>
+  <symbol id="i-import" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M8 11.5l4 4 4-4"/><path d="M4.5 19.5h15"/></symbol>
+  <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 20V9"/><path d="M8 12.5l4-4 4 4"/><path d="M4.5 4.5h15"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"/><path d="M12 18v3"/></symbol>
+  <symbol id="i-focus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2" class="solid"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3.5"/><path d="M8 7.5l4-4 4 4"/><path d="M5 13v5.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V13"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5z"/><path d="M13 3.5v5h5"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16V9M12 16V5M17 16v-4"/></symbol>
+  <symbol id="i-guide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.7 9.3a2.4 2.4 0 0 1 4.6.8c0 1.6-2.3 1.9-2.3 3.4"/><circle cx="12" cy="17" r="1" class="solid"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4.5 17l4.8-4.6 3.2 3 2.5-2.2 4.5 4.3"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 0 0-5.7-5.7L11.7 6.6"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 0 0 5.7 5.7l1.4-1.4"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M9.5 6.5c-2.8 0-5 2.2-5 5v6h6v-6h-3.2c0-1.6 1-2.7 2.2-2.7zM20 6.5c-2.8 0-5 2.2-5 5v6h6v-6h-3.2c0-1.6 1-2.7 2.2-2.7z"/></symbol>
+  <symbol id="i-mark" viewBox="0 0 24 24"><path d="M9 15l-4 4v-3.6L14.6 5.8a2 2 0 0 1 2.8 0l.8.8a2 2 0 0 1 0 2.8z"/><path d="M13 7.5l3.5 3.5"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.6" cy="6.5" r="1.1" class="solid"/><circle cx="4.6" cy="12" r="1.1" class="solid"/><circle cx="4.6" cy="17.5" r="1.1" class="solid"/></symbol>
+  <symbol id="i-list-ol" viewBox="0 0 24 24"><path d="M10 6.5h10M10 12h10M10 17.5h10"/><path d="M4 5.2l1.3-.7V9M3.6 12.1c.2-.7.8-1.1 1.5-1.1.8 0 1.4.5 1.4 1.2 0 1.4-2.9 1.7-2.9 3.6h3.1"/><path d="M3.7 16.7h2.9M5.2 16.7v3.1"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M4.5 9.5h9a5.5 5.5 0 0 1 0 11h-4"/><path d="M8 5.5l-4 4 4 4"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M19.5 9.5h-9a5.5 5.5 0 0 0 0 11h4"/><path d="M16 5.5l4 4-4 4"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20l4.2-1 10.3-10.3a2 2 0 0 0 0-2.8l-.4-.4a2 2 0 0 0-2.8 0L5 15.8z"/><path d="M13.5 6.5l4 4"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c5 0 8.5 4.2 9.5 6-.5.9-1.4 2.1-2.6 3.2"/><path d="M6.4 6.9C4.4 8.3 3 10.1 2.5 12c1 1.8 4.5 6 9.5 6 1.5 0 2.9-.4 4.1-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+</svg>
+
+<button id="sidebar-reveal" class="sidebar-reveal" type="button" title="Menüyü göster (Ctrl+\)" aria-label="Menüyü göster">
+  <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+</button>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Bölümler ve hesap">
+    <div class="sidebar-head">
+      <div class="brand">
+        <img class="brand-mark" src="logo-mark.png" alt="" width="26" height="26">
+        <span class="brand-name">YazNot</span>
+        <span class="brand-version" title="Sürüm 1.0">1.0</span>
+      </div>
+      <div class="sidebar-head-actions">
+        <button class="icon-btn" id="btn-palette" type="button" title="Tüm notlarda ara (Ctrl+K)" aria-label="Tüm notlarda ara">
+          <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        </button>
+        <button class="icon-btn sidebar-collapse-btn" id="btn-collapse-sidebar" type="button" title="Kenar çubuğunu gizle (Ctrl+\)" aria-label="Kenar çubuğunu gizle">
+          <svg class="icon" aria-hidden="true"><use href="#i-back"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-scroll">
+      <div class="sidebar-label">Bölümler</div>
+      <nav class="nav" id="nav-sections"></nav>
+      <button class="nav-new-section" id="btn-new-section" type="button" title="Yeni bölüm ekle">
+        <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>
+        <span>Yeni bölüm</span>
+      </button>
+
+      <div class="sidebar-divider"></div>
+
+      <button class="nav-btn nav-util" id="btn-open-shares" type="button" title="Gelen ve gönderilen paylaşımlar">
+        <span class="nav-icon"><svg class="icon" aria-hidden="true"><use href="#i-inbox"/></svg></span>
+        <span class="nav-btn-label">Paylaşımlar</span>
+        <span class="shares-badge hidden" id="shares-badge">0</span>
+      </button>
+      <button class="nav-btn nav-util" id="btn-open-trash" type="button" title="Silinen notlar (30 gün saklanır)">
+        <span class="nav-icon"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></span>
+        <span class="nav-btn-label">Geri dönüşüm</span>
+        <span class="shares-badge hidden" id="trash-badge">0</span>
+      </button>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="sidebar-sync" id="sidebar-sync" title="Senkronizasyon durumu">
+        <span class="sync-icon" id="sidebar-sync-icon">●</span>
+        <span class="sync-text" id="sidebar-sync-text">Senkronize</span>
+      </div>
+
+      <div class="sidebar-account" id="sidebar-account">
+        <button class="sidebar-account-top" id="btn-switch-account" type="button"
+          aria-haspopup="menu" aria-expanded="false" title="Hesaplar arasında geçiş yap">
+          <span class="sidebar-account-avatar" id="sidebar-account-avatar">👤</span>
+          <span class="sidebar-account-email" id="sidebar-account-email">…</span>
+          <span class="sidebar-account-chevron"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+        </button>
+        <div class="account-menu hidden" id="account-menu" role="menu" aria-label="Hesaplar">
+          <div class="account-menu-list" id="account-menu-list"></div>
+          <button class="account-menu-item account-menu-add" id="btn-add-account" type="button" role="menuitem">
+            <span class="account-menu-icon">＋</span>
+            <span>Hesap Ekle</span>
+          </button>
+          <div class="account-menu-sep"></div>
+          <button class="account-menu-item account-menu-danger" id="btn-logout" type="button" role="menuitem">
+            <span class="account-menu-icon">↩</span>
+            <span>Bu Hesaptan Çıkış Yap</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-tools">
+        <button class="icon-btn sidebar-tool" id="btn-guide" type="button" title="Kullanım kılavuzu" aria-label="Kullanım kılavuzu">
+          <svg class="icon" aria-hidden="true"><use href="#i-guide"/></svg>
+        </button>
+        <div class="menu-anchor">
+          <button class="icon-btn sidebar-tool" id="btn-sidebar-more" type="button" title="Diğer işlemler" aria-label="Diğer işlemler" aria-haspopup="menu" aria-expanded="false">
+            <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
+          </button>
+          <div class="menu menu-up menu-right hidden" id="sidebar-more-menu" role="menu" aria-label="Diğer işlemler">
+            <div class="menu-label">Veri</div>
+            <button class="menu-item" id="btn-export-backup" type="button" role="menuitem" title="Tüm veriyi JSON dosyasına kaydet">
+              <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></span>Yedek oluştur
+            </button>
+            <button class="menu-item" id="btn-import-backup" type="button" role="menuitem" title="JSON yedeğini içe aktar">
+              <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-import"/></svg></span>Yedekten içe aktar
+            </button>
+            <div class="menu-sep"></div>
+            <div class="menu-label">Uygulama</div>
+            <button class="menu-item" id="btn-hidden-sections" type="button" role="menuitem">
+              <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-eye-off"/></svg></span>Gizli bölümler
+            </button>
+            <button class="menu-item" id="btn-stats" type="button" role="menuitem">
+              <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg></span>İstatistikler
+            </button>
+            <button class="menu-item" id="btn-settings" type="button" role="menuitem">
+              <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg></span>Ayarlar
+            </button>
+            <button class="menu-item" id="btn-guide-more" type="button" role="menuitem">
+              <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-guide"/></svg></span>Kullanım kılavuzu
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main id="main-content" class="main-content">
+    <div id="sections-empty-view" class="empty-sections hidden">
+      <img class="empty-sections-mark" src="logo-mark.png" alt="" width="72" height="72">
+      <h2 class="empty-sections-title">Henüz bölüm yok</h2>
+      <p class="empty-sections-desc">İlk bölümünü oluşturarak başla. İstediğin kadar bölüm ekleyebilir, her birini ayrı isimlendirebilirsin.</p>
+      <button class="btn-primary" id="btn-first-section" type="button">+ İlk Bölümünü Oluştur</button>
+    </div>
+
+    <div id="section-view" class="view hidden">
+      <header class="view-header">
+        <div class="header-left">
+          <span class="section-icon-display" id="section-icon-display">📚</span>
+          <div class="header-titles">
+            <h1 class="view-title editable" id="section-title" title="Yeniden adlandır">Bölüm</h1>
+            <div class="view-sub" id="section-sub">—</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-primary btn-new" id="btn-new-item" type="button" title="Yeni öğe (Ctrl+N)" aria-label="Yeni öğe">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>
+            <span>Yeni öğe</span>
+          </button>
+          <div class="menu-anchor">
+            <button class="icon-btn btn-more" id="btn-section-more" type="button" title="Bölüm işlemleri" aria-label="Bölüm işlemleri" aria-haspopup="menu" aria-expanded="false">
+              <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
+            </button>
+            <div class="menu menu-down menu-right hidden" id="section-more-menu" role="menu" aria-label="Bölüm işlemleri">
+              <button class="menu-item" id="btn-read-section" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>Oku
+              </button>
+              <button class="menu-item" id="btn-select-items" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-select"/></svg></span><span>Seç</span>
+              </button>
+              <button class="menu-item" id="btn-import-section" type="button" role="menuitem" title="PDF, TXT veya Markdown dosyasından içerik aktar">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-import"/></svg></span>İçe aktar…
+              </button>
+              <div class="menu-sep"></div>
+              <button class="menu-item" id="btn-export-section-md" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-export"/></svg></span>Markdown olarak dışa aktar
+              </button>
+              <button class="menu-item" id="btn-edit-section" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-edit"/></svg></span>Bölümü düzenle
+              </button>
+              <button class="menu-item" id="btn-hide-section" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-eye-off"/></svg></span>Bölümü gizle
+              </button>
+              <button class="menu-item danger" id="btn-delete-section" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></span>Bölümü sil
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="search-wrap" id="section-search-wrap">
+        <svg class="icon search-icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="search-items" class="search-input" type="text" placeholder="Bu bölümde ara" aria-label="Bu bölümde ara" />
+        <span class="search-kbd">Ctrl F</span>
+      </div>
+      <div id="items-container" class="list-container"></div>
+    </div>
+
+    <div id="group-view" class="view hidden">
+      <header class="view-header">
+        <div class="header-left">
+          <button class="btn-back" id="btn-back-to-section" type="button" title="Bölüme dön" aria-label="Bölüme dön">
+            <svg class="icon" aria-hidden="true"><use href="#i-back"/></svg>
+          </button>
+          <div class="header-titles">
+            <span class="group-parent" id="group-parent">Bölüm</span>
+            <h1 class="view-title editable" id="group-title" title="Yeniden adlandır">Grup</h1>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-primary btn-new" id="btn-new-group-item" type="button" title="Yeni öğe (Ctrl+N)" aria-label="Yeni öğe">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>
+            <span>Yeni öğe</span>
+          </button>
+          <div class="menu-anchor">
+            <button class="icon-btn btn-more" id="btn-group-more" type="button" title="Grup işlemleri" aria-label="Grup işlemleri" aria-haspopup="menu" aria-expanded="false">
+              <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
+            </button>
+            <div class="menu menu-down menu-right hidden" id="group-more-menu" role="menu" aria-label="Grup işlemleri">
+              <button class="menu-item" id="btn-read-group" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>Oku
+              </button>
+              <button class="menu-item" id="btn-select-group-items" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-select"/></svg></span><span>Seç</span>
+              </button>
+              <button class="menu-item" id="btn-import-group" type="button" role="menuitem" title="PDF, TXT veya Markdown dosyasından içerik aktar">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-import"/></svg></span>İçe aktar…
+              </button>
+              <div class="menu-sep"></div>
+              <button class="menu-item" id="btn-export-group-md" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-export"/></svg></span>Markdown olarak dışa aktar
+              </button>
+              <button class="menu-item" id="btn-share-group" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-share"/></svg></span>Paylaş
+              </button>
+              <button class="menu-item danger" id="btn-delete-group" type="button" role="menuitem">
+                <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></span>Grubu sil
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="search-wrap">
+        <svg class="icon search-icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="group-search" class="search-input" type="text" placeholder="Bu grupta ara" aria-label="Bu grupta ara" />
+      </div>
+      <div id="group-items-container" class="list-container"></div>
+    </div>
+
+    <div id="item-editor-view" class="view hidden">
+      <!-- Başlık ve biçimlendirme çubuğu birlikte yapışkan kalır; aşağı kaydırırken
+           yazı ayarlarına tek dokunuşla erişilir. -->
+      <div class="editor-sticky" id="editor-sticky">
+        <header class="editor-header">
+          <div class="header-left">
+            <button class="btn-back" id="btn-back-from-editor" type="button" title="Geri (Esc)" aria-label="Geri">
+              <svg class="icon" aria-hidden="true"><use href="#i-back"/></svg>
+            </button>
+            <div class="editor-title-block">
+              <h2 class="editor-title editable" id="editor-title" title="Yeniden adlandır">Başlık</h2>
+              <div class="editor-meta">
+                <span id="editor-word-count" class="word-count">0 kelime</span>
+                <span class="meta-sep">·</span>
+                <span id="editor-read-time" class="word-count">1 dk</span>
+                <span class="meta-sep">·</span>
+                <span id="editor-save-status" class="save-status">Kaydedildi</span>
+                <span id="editor-sync-dot" class="sync-dot" title="Senkronize"></span>
+              </div>
+            </div>
+          </div>
+          <div class="editor-actions">
+            <button class="icon-btn" id="btn-stt" type="button" title="Sesten metne — sesi yazıya çevir" aria-label="Sesten metne">
+              <svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-focus-mode" type="button" title="Odak modu (Ctrl+Shift+F)" aria-label="Odak modu">
+              <svg class="icon" aria-hidden="true"><use href="#i-focus"/></svg>
+            </button>
+            <div class="menu-anchor">
+              <button class="icon-btn" id="btn-editor-more" type="button" title="Diğer işlemler" aria-label="Diğer işlemler" aria-haspopup="menu" aria-expanded="false">
+                <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
+              </button>
+              <div class="menu menu-down menu-right hidden" id="editor-more-menu" role="menu" aria-label="Not işlemleri">
+                <button class="menu-item" id="btn-share-item" type="button" role="menuitem">
+                  <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-share"/></svg></span>Bu notu paylaş
+                </button>
+                <div class="menu-sep"></div>
+                <div class="menu-label">Dışa aktar</div>
+                <button class="menu-item" id="btn-export-pdf" type="button" role="menuitem" title="PDF olarak dışa aktar">
+                  <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg></span>PDF
+                </button>
+                <button class="menu-item" id="btn-export-txt" type="button" role="menuitem" title="TXT olarak dışa aktar">
+                  <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg></span>TXT
+                </button>
+                <button class="menu-item" id="btn-export-md" type="button" role="menuitem" title="Markdown olarak dışa aktar">
+                  <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg></span>Markdown
+                </button>
+                <div class="menu-sep"></div>
+                <button class="menu-item" id="btn-guide-editor" type="button" role="menuitem">
+                  <span class="menu-icon"><svg class="icon" aria-hidden="true"><use href="#i-guide"/></svg></span>Kullanım kılavuzu
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Biçimlendirme">
+          <div class="toolbar-group">
+            <button class="toolbar-btn" data-cmd="undo" type="button" title="Geri al (Ctrl+Z)" aria-label="Geri al">
+              <svg class="icon" aria-hidden="true"><use href="#i-undo"/></svg>
+            </button>
+            <button class="toolbar-btn" data-cmd="redo" type="button" title="Yinele (Ctrl+Y)" aria-label="Yinele">
+              <svg class="icon" aria-hidden="true"><use href="#i-redo"/></svg>
+            </button>
+          </div>
+          <span class="toolbar-sep"></span>
+          <div class="toolbar-group">
+            <button class="toolbar-btn" data-cmd="bold" type="button" title="Kalın (Ctrl+B)"><b>B</b></button>
+            <button class="toolbar-btn" data-cmd="italic" type="button" title="İtalik (Ctrl+I)"><i>I</i></button>
+            <button class="toolbar-btn" data-cmd="underline" type="button" title="Altı çizili (Ctrl+U)"><u>U</u></button>
+            <button class="toolbar-btn" data-cmd="strike" type="button" title="Üstü çizili"><s>S</s></button>
+            <button class="toolbar-btn" data-cmd="mark" type="button" title="Vurgula">
+              <svg class="icon" aria-hidden="true"><use href="#i-mark"/></svg>
+            </button>
+          </div>
+          <span class="toolbar-sep"></span>
+          <div class="toolbar-group">
+            <button class="toolbar-btn" data-cmd="h1" type="button" title="Büyük başlık">H1</button>
+            <button class="toolbar-btn" data-cmd="h2" type="button" title="Başlık">H2</button>
+            <button class="toolbar-btn" data-cmd="h3" type="button" title="Alt başlık">H3</button>
+            <button class="toolbar-btn" data-cmd="quote" type="button" title="Alıntı" aria-label="Alıntı">
+              <svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg>
+            </button>
+          </div>
+          <span class="toolbar-sep"></span>
+          <div class="toolbar-group">
+            <button class="toolbar-btn" data-cmd="ul" type="button" title="Madde listesi" aria-label="Madde listesi">
+              <svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>
+            </button>
+            <button class="toolbar-btn" data-cmd="ol" type="button" title="Numaralı liste" aria-label="Numaralı liste">
+              <svg class="icon" aria-hidden="true"><use href="#i-list-ol"/></svg>
+            </button>
+            <button class="toolbar-btn" data-cmd="link" type="button" title="Bağlantı ekle" aria-label="Bağlantı ekle">
+              <svg class="icon" aria-hidden="true"><use href="#i-link"/></svg>
+            </button>
+            <button class="toolbar-btn" data-cmd="image" type="button" title="Resim ekle" aria-label="Resim ekle">
+              <svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>
+            </button>
+            <button class="toolbar-btn toolbar-btn-stt" data-cmd="stt" type="button" title="Sesten metne — sesi yazıya çevir" aria-label="Sesten metne">
+              <svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>
+            </button>
+          </div>
+          <span class="toolbar-sep"></span>
+          <button class="toolbar-btn" data-cmd="clear" type="button" title="Biçimi temizle" aria-label="Biçimi temizle">
+            <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <div id="editor-content" class="editor-content" contenteditable="true" spellcheck="false"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="book-reader-view" class="reader hidden">
+  <div class="reader-progress-bar" id="reader-progress-bar"></div>
+  <header class="reader-topbar">
+    <div class="reader-topbar-left">
+      <button class="btn-back" id="btn-exit-reader" type="button" title="Geri (Esc)" aria-label="Geri">
+        <svg class="icon" aria-hidden="true"><use href="#i-back"/></svg>
+      </button>
+      <span class="reader-book-title" id="reader-book-title">Kitap</span>
+    </div>
+    <span class="reader-progress" id="reader-progress">0%</span>
+  </header>
+  <div class="reader-body" id="reader-body">
+    <div class="reader-content" id="reader-content"></div>
+  </div>
+</div>
+
+<div id="palette-overlay" class="palette-overlay hidden">
+  <div class="palette" role="dialog" aria-label="Hızlı arama">
+    <div class="palette-search">
+      <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+      <input id="palette-input" class="palette-input" type="text" placeholder="Tüm notlarda ara…" autocomplete="off" aria-label="Tüm notlarda ara" />
+    </div>
+    <div id="palette-results" class="palette-results"></div>
+    <div class="palette-hint"><kbd>↑</kbd><kbd>↓</kbd> gez · <kbd>Enter</kbd> aç · <kbd>Esc</kbd> kapat</div>
+  </div>
+</div>
+
+<!-- Kullanım kılavuzu: ilk açılışta bir kez otomatik, sonrasında sağ alttaki
+     küçük ? düğmesiyle istenildiği zaman açılır. -->
+<div id="guide-modal" class="modal-overlay guide-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+  <div class="guide-sheet">
+    <header class="guide-head">
+      <img class="guide-mark" src="logo-mark.png" alt="" width="30" height="30">
+      <div class="guide-head-text">
+        <h2 id="guide-title" class="guide-title">Kullanım kılavuzu</h2>
+        <p class="guide-sub">YazNot 1.0 · her şeyi adım adım anlatır</p>
+      </div>
+      <button id="guide-close" class="icon-btn" type="button" title="Kapat (Esc)" aria-label="Kapat">
+        <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </header>
+    <div id="guide-welcome" class="guide-welcome hidden">
+      <strong>YazNot 1.0'a hoş geldin.</strong>
+      <span>Kılavuz bir kez açıldı; dilediğin zaman sağ alttaki <b>?</b> düğmesinden yeniden okuyabilirsin.</span>
+    </div>
+    <div class="guide-layout">
+      <nav id="guide-toc" class="guide-toc" aria-label="Kılavuz konuları"></nav>
+      <div id="guide-body" class="guide-body" tabindex="0"></div>
+    </div>
+    <footer class="guide-foot">
+      <span class="guide-foot-note">Kılavuz çevrimdışı da okunur.</span>
+      <div class="guide-foot-actions">
+        <button id="guide-download" class="btn-secondary" type="button">
+          <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+          PDF olarak kaydet
+        </button>
+        <button id="guide-done" class="btn-primary" type="button">Anladım</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<button id="guide-fab" class="guide-fab hidden" type="button" title="Kullanım kılavuzu" aria-label="Kullanım kılavuzu">
+  <span aria-hidden="true">?</span>
+</button>
+
+<div id="toast-container" class="toast-container"></div>
+
+<div id="context-menu" class="context-menu hidden" role="menu"></div>
+
+<div id="modal" class="modal-overlay hidden">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h2 id="modal-title" class="modal-title"></h2>
+    <input id="modal-input" class="modal-input" type="text" />
+    <div class="modal-actions">
+      <button id="modal-cancel" class="btn-secondary" type="button">İptal</button>
+      <button id="modal-save" class="btn-primary" type="button">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="hidden-modal" class="modal-overlay hidden">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h2 class="modal-title">Gizli Bölümler</h2>
+    <p class="modal-hint">Bu pencere yalnızca senin ekranında görünür. Kapatınca hiçbir iz kalmaz.</p>
+    <div id="hidden-modal-list" class="hidden-modal-list"></div>
+    <div class="modal-actions">
+      <button id="hidden-modal-close" class="btn-secondary" type="button">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<div id="auth-overlay" class="auth-overlay hidden">
+  <div class="auth-card">
+    <button id="auth-cancel" class="auth-cancel hidden" type="button" aria-label="Vazgeç" title="Vazgeç">✕</button>
+    <div class="auth-brand">
+      <img class="auth-mark" src="logo-mark.png" alt="" width="52" height="52">
+      <h1 class="auth-logo">YazNot</h1>
+      <span class="auth-version">1.0</span>
+    </div>
+    <p id="auth-subtitle" class="auth-subtitle">Notlarına her cihazdan erişmek için giriş yap</p>
+    <div class="auth-step">
+      <button id="auth-google" class="auth-btn auth-btn-google" type="button">
+        <svg class="google-icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span>Google ile giriş yap</span>
+      </button>
+      <div class="auth-divider"><span>veya</span></div>
+    </div>
+    <div id="auth-step-email" class="auth-step">
+      <label class="auth-label" for="auth-email">E-posta adresin</label>
+      <input id="auth-email" class="auth-input" type="email" name="yaznot-add-email" placeholder="ornek@example.com" autocomplete="off" autocapitalize="none" spellcheck="false" />
+      <button id="auth-send" class="auth-btn" type="button">Giriş kodu gönder</button>
+      <p class="auth-help">Kod gelmiyorsa Gereksiz/Spam ve karantina klasörlerini kontrol et.</p>
+    </div>
+    <div id="auth-step-code" class="auth-step hidden">
+      <label class="auth-label" for="auth-code">E-postandaki giriş kodu</label>
+      <input id="auth-code" class="auth-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Kod" autocomplete="one-time-code" />
+      <button id="auth-verify" class="auth-btn" type="button">Doğrula ve giriş yap</button>
+      <button id="auth-back" class="auth-link" type="button">Farklı e-posta kullan</button>
+    </div>
+    <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
+    <div class="auth-lang" role="group" aria-label="Dil / Language">
+      <button type="button" data-set-lang="tr" aria-pressed="true">TR</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</div>
+
+<div id="section-modal" class="modal-overlay hidden">
+  <div class="modal modal-section" role="dialog" aria-modal="true">
+    <h2 id="section-modal-title" class="modal-title">Yeni Bölüm</h2>
+    <label class="modal-field-label" for="section-modal-name">Bölüm adı</label>
+    <input id="section-modal-name" class="modal-input" type="text" placeholder="Bölüm adı" maxlength="60" />
+    <label class="modal-field-label">Yapı</label>
+    <div class="structure-picker" id="section-modal-structure">
+      <button type="button" class="structure-option active" data-structure="flat"><strong>Düz Liste</strong><small>Doğrudan not tut. Tek kademe.</small></button>
+      <button type="button" class="structure-option" data-structure="grouped"><strong>Alt Kategorili</strong><small>Gruplar aç, içine not yaz. İki kademe.</small></button>
+    </div>
+    <label class="modal-field-label">Görünüm</label>
+    <div class="type-picker" id="section-modal-type">
+      <button type="button" class="type-option active" data-type="list">Liste<small>Alt alta satırlar</small></button>
+      <button type="button" class="type-option" data-type="grid">Kart<small>Izgara görünümü</small></button>
+    </div>
+    <label class="modal-field-label">Simge (Emoji)</label>
+    <div class="emoji-picker" id="section-modal-emoji">
+      <button type="button" class="emoji-option active" data-emoji="📚">📚</button>
+      <button type="button" class="emoji-option" data-emoji="✍️">✍️</button>
+      <button type="button" class="emoji-option" data-emoji="📖">📖</button>
+      <button type="button" class="emoji-option" data-emoji="🧪">🧪</button>
+      <button type="button" class="emoji-option" data-emoji="🧮">🧮</button>
+      <button type="button" class="emoji-option" data-emoji="💡">💡</button>
+      <button type="button" class="emoji-option" data-emoji="🎨">🎨</button>
+      <button type="button" class="emoji-option" data-emoji="🎵">🎵</button>
+      <button type="button" class="emoji-option" data-emoji="🌍">🌍</button>
+      <button type="button" class="emoji-option" data-emoji="💻">💻</button>
+      <button type="button" class="emoji-option" data-emoji="📝">📝</button>
+      <button type="button" class="emoji-option" data-emoji="⭐">⭐</button>
+    </div>
+    <div class="emoji-custom-row">
+      <input id="section-modal-emoji-custom" class="modal-input emoji-custom-input" type="text" maxlength="4" placeholder="veya kendi emojin" />
+    </div>
+    <label class="modal-field-label">Renk</label>
+    <div class="color-picker" id="section-modal-color">
+      <button type="button" class="color-option active" data-color="#ff6126" style="--swatch:#ff6126" aria-label="Turuncu"></button>
+      <button type="button" class="color-option" data-color="#4f9dff" style="--swatch:#4f9dff" aria-label="Mavi"></button>
+      <button type="button" class="color-option" data-color="#41c98a" style="--swatch:#41c98a" aria-label="Yeşil"></button>
+      <button type="button" class="color-option" data-color="#b07cff" style="--swatch:#b07cff" aria-label="Mor"></button>
+      <button type="button" class="color-option" data-color="#ff6fa5" style="--swatch:#ff6fa5" aria-label="Pembe"></button>
+      <button type="button" class="color-option" data-color="#e8c34a" style="--swatch:#e8c34a" aria-label="Sarı"></button>
+    </div>
+    <div class="modal-actions">
+      <button id="section-modal-cancel" class="btn-secondary" type="button">İptal</button>
+      <button id="section-modal-save" class="btn-primary" type="button">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="settings-modal" class="modal-overlay hidden">
+  <div class="modal modal-settings" role="dialog" aria-modal="true">
+    <h2 class="modal-title">Ayarlar</h2>
+
+    <label class="modal-field-label">Dil / Language</label>
+    <div class="type-picker" id="settings-language" role="group" aria-label="Dil / Language">
+      <button type="button" class="type-option" data-set-lang="tr" data-i18n-skip="1">
+        <span>Türkçe</span><small>Türkçe arayüz</small>
+      </button>
+      <button type="button" class="type-option" data-set-lang="en" data-i18n-skip="1">
+        <span>English</span><small>English interface</small>
+      </button>
+    </div>
+
+    <label class="modal-field-label">Tema</label>
+    <div class="type-picker" id="settings-theme">
+      <button type="button" class="type-option" data-theme="dark">Koyu<small>Gece yazımı</small></button>
+      <button type="button" class="type-option" data-theme="light">Açık<small>Gündüz yazımı</small></button>
+    </div>
+
+    <label class="modal-field-label" for="settings-font-size">Yazı Boyutu — <span id="settings-font-label">17px</span></label>
+    <input id="settings-font-size" class="range-input" type="range" min="14" max="24" step="1" value="17" />
+
+    <label class="modal-field-label" for="settings-line-height">Satır Aralığı — <span id="settings-line-label">1.85</span></label>
+    <input id="settings-line-height" class="range-input" type="range" min="140" max="220" step="5" value="185" />
+
+    <label class="modal-field-label">Yazı Alanı Genişliği</label>
+    <div class="type-picker type-picker-3" id="settings-width">
+      <button type="button" class="type-option" data-width="narrow">Dar<small>680px</small></button>
+      <button type="button" class="type-option" data-width="normal">Normal<small>820px</small></button>
+      <button type="button" class="type-option" data-width="wide">Geniş<small>1100px</small></button>
+    </div>
+
+    <label class="modal-field-label">Yazım Denetimi</label>
+    <label class="switch-row">
+      <input type="checkbox" id="settings-spellcheck" />
+      <span>Yazarken yazım hatalarını işaretle</span>
+    </label>
+
+    <div class="settings-note" id="settings-backup-note"></div>
+
+    <div class="modal-actions">
+      <button id="settings-open-backups" class="btn-secondary" type="button">Yedek Klasörü</button>
+      <button id="settings-close" class="btn-primary" type="button">Tamam</button>
+    </div>
+  </div>
+</div>
+
+<div id="stats-modal" class="modal-overlay hidden">
+  <div class="modal modal-stats" role="dialog" aria-modal="true">
+    <h2 class="modal-title">İstatistikler</h2>
+    <div class="stats-grid" id="stats-grid"></div>
+    <p class="modal-hint" id="stats-note"></p>
+    <div class="modal-actions">
+      <button id="stats-close" class="btn-primary" type="button">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<div id="trash-modal" class="modal-overlay hidden">
+  <div class="modal modal-trash" role="dialog" aria-modal="true">
+    <h2 class="modal-title">Geri Dönüşüm Kutusu</h2>
+    <p class="modal-hint">Silinen notlar burada 30 gün bekler, sonra kalıcı olarak silinir.</p>
+    <div id="trash-list" class="trash-list"></div>
+    <div class="modal-actions">
+      <button id="trash-empty" class="btn-secondary btn-danger" type="button">Tümünü Boşalt</button>
+      <button id="trash-close" class="btn-primary" type="button">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<div id="move-modal" class="modal-overlay hidden">
+  <div class="modal modal-move" role="dialog" aria-modal="true">
+    <h2 class="modal-title">Notları Taşı</h2>
+    <p class="modal-hint" id="move-summary">…</p>
+    <label class="modal-field-label" for="move-target">Hedef bölüm / grup</label>
+    <select id="move-target" class="modal-input modal-select"></select>
+    <p id="move-status" class="auth-status"></p>
+    <div class="modal-actions">
+      <button id="move-cancel" class="btn-secondary" type="button">İptal</button>
+      <button id="move-confirm" class="btn-primary" type="button">Taşı</button>
+    </div>
+  </div>
+</div>
+
+<div id="bulk-bar" class="bulk-bar hidden">
+  <span class="bulk-count" id="bulk-count">0 not seçildi</span>
+  <button class="bulk-btn" id="bulk-select-all" type="button">Tümünü seç</button>
+  <button class="bulk-btn" id="bulk-move" type="button">Taşı</button>
+  <button class="bulk-btn" id="bulk-export" type="button">Dışa aktar</button>
+  <button class="bulk-btn bulk-btn-danger" id="bulk-delete" type="button">Sil</button>
+  <button class="bulk-btn" id="bulk-cancel" type="button">İptal</button>
+</div>
+
+<div id="share-send-modal" class="modal-overlay hidden">
+  <div class="modal modal-share" role="dialog" aria-modal="true">
+    <h2 class="modal-title">İçerik Paylaş</h2>
+    <p class="share-summary" id="share-summary">…</p>
+    <label class="modal-field-label" for="share-receiver-email">Alıcının e-posta adresi</label>
+    <input id="share-receiver-email" class="modal-input" type="email" placeholder="ornek@example.com" autocomplete="email" />
+    <label class="modal-field-label" for="share-message">Not (isteğe bağlı)</label>
+    <textarea id="share-message" class="modal-textarea" rows="2" placeholder="Bir not ekle…"></textarea>
+    <p id="share-send-status" class="auth-status"></p>
+    <div class="modal-actions">
+      <button id="share-send-cancel" class="btn-secondary" type="button">İptal</button>
+      <button id="share-send-confirm" class="btn-primary" type="button">Gönder</button>
+    </div>
+  </div>
+</div>
+
+<div id="shares-modal" class="modal-overlay hidden">
+  <div class="modal modal-shares" role="dialog" aria-modal="true">
+    <h2 class="modal-title">Paylaşımlar</h2>
+    <div class="shares-tabs">
+      <button class="shares-tab active" id="shares-tab-incoming" type="button">Gelen</button>
+      <button class="shares-tab" id="shares-tab-sent" type="button">Gönderilen</button>
+    </div>
+    <div id="shares-list" class="shares-list"></div>
+    <p id="shares-status" class="auth-status"></p>
+    <div class="modal-actions">
+      <button id="shares-close" class="btn-secondary" type="button">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<div id="import-modal" class="modal-overlay hidden">
+  <div class="modal modal-import" role="dialog" aria-modal="true">
+    <h2 class="modal-title">İçe Aktarma Önizleme</h2>
+    <p class="modal-hint">TXT, Markdown veya PDF dosyasından içerik aktarabilirsin. Markdown biçimi (başlık, liste, kalın yazı) korunur.</p>
+    <label class="modal-field-label" for="import-title">Başlık</label>
+    <input id="import-title" class="modal-input" type="text" placeholder="Başlık" />
+    <label class="modal-field-label">İçerik önizleme</label>
+    <div id="import-preview" class="import-preview"></div>
+    <p id="import-status" class="auth-status"></p>
+    <div class="modal-actions">
+      <button id="import-cancel" class="btn-secondary" type="button">İptal</button>
+      <button id="import-confirm" class="btn-primary" type="button">İçeri Aktar</button>
+    </div>
+  </div>
+</div>
+
+<div id="restore-modal" class="modal-overlay hidden">
+  <div class="modal modal-restore" role="dialog" aria-modal="true">
+    <h2 class="modal-title">Yedekten İçe Aktar</h2>
+    <p class="modal-hint" id="restore-summary">…</p>
+    <span class="modal-field-label">İçe aktarma yöntemi</span>
+    <div class="restore-modes" id="restore-modes" role="radiogroup" aria-label="İçe aktarma yöntemi">
+      <label class="restore-mode" data-mode="merge">
+        <input type="radio" name="restore-mode" value="merge" checked />
+        <span class="restore-mode-text">
+          <span class="restore-mode-title">Mevcut notların üzerine ekle</span>
+          <span class="restore-mode-desc">Şu anki bölüm ve notların olduğu gibi kalır. Yedekteki bölümler ayrı bölümler olarak ayrıca eklenir.</span>
+        </span>
+      </label>
+      <label class="restore-mode" data-mode="replace">
+        <input type="radio" name="restore-mode" value="replace" />
+        <span class="restore-mode-text">
+          <span class="restore-mode-title">Mevcut notları değiştir</span>
+          <span class="restore-mode-desc">Bu hesaptaki tüm bölüm ve notlar silinir; yalnızca yedekteki içerik kalır. Geri dönüşüm kutusu da boşaltılır.</span>
+        </span>
+      </label>
+    </div>
+    <p id="restore-effect" class="restore-effect"></p>
+    <p id="restore-status" class="auth-status" role="status" aria-live="polite"></p>
+    <div class="modal-actions">
+      <button id="restore-cancel" class="btn-secondary" type="button">İptal</button>
+      <button id="restore-confirm" class="btn-primary" type="button">Üzerine Ekle</button>
+    </div>
+  </div>
+</div>
+
+<div id="stt-modal" class="modal-overlay stt-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="stt-title">
+  <div class="modal modal-stt">
+    <div class="stt-head">
+      <h2 id="stt-title" class="modal-title">Sesten Metne</h2>
+      <button id="stt-close" class="stt-x" type="button" aria-label="Kapat" title="Kapat">✕</button>
+    </div>
+
+    <div id="stt-download-view" class="stt-download-view">
+      <p class="stt-lead">
+        Sesin <strong>cihazında</strong> yazıya çevrilir; kayıt hiçbir sunucuya gönderilmez.
+      </p>
+      <div class="stt-download-box">
+        <div class="stt-download-icon">⬇️</div>
+        <div class="stt-download-text">
+          <strong>Duyu-small ses tanıma modeli</strong>
+          <span>Türkçe + İngilizce · cihazda çalışır · tek seferlik indirme</span>
+          <span class="stt-download-size" id="stt-download-size">~56 MB</span>
+        </div>
+      </div>
+      <ul class="stt-bullets">
+        <li>Model yalnızca ilk kullanımda indirilir, sonra cihazda kalır.</li>
+        <li>İndirdikten sonra internet olmadan da çalışır.</li>
+        <li>İstediğin zaman bu penceredeki <strong>Modeli sil</strong> ile yer açabilirsin.</li>
+      </ul>
+      <div id="stt-download-progress" class="stt-progress hidden">
+        <div class="stt-progress-track"><div class="stt-progress-fill" id="stt-download-fill"></div></div>
+        <div class="stt-progress-meta">
+          <span id="stt-download-status">İndiriliyor…</span>
+          <span id="stt-download-percent">0%</span>
+        </div>
+      </div>
+      <p id="stt-download-error" class="stt-error hidden"></p>
+      <div class="stt-actions">
+        <button id="stt-download-cancel" class="btn-secondary" type="button">Vazgeç</button>
+        <button id="stt-download-btn" class="btn-primary" type="button">Modeli indir</button>
+      </div>
+    </div>
+
+    <div id="stt-main-view" class="stt-main-view hidden">
+      <div class="stt-toolbar-row">
+        <div class="stt-lang" role="group" aria-label="Dil">
+          <button type="button" class="stt-lang-btn active" data-lang="mix">Otomatik</button>
+          <button type="button" class="stt-lang-btn" data-lang="tr">Türkçe</button>
+          <button type="button" class="stt-lang-btn" data-lang="en">İngilizce</button>
+        </div>
+        <span class="stt-model-pill" id="stt-model-pill" title="Model cihazda yüklü">● Model hazır</span>
+      </div>
+
+      <div class="stt-record-zone">
+        <button id="stt-record-btn" class="stt-record-btn" type="button" aria-label="Kaydı başlat">
+          <span class="stt-record-dot"></span>
+          <span id="stt-record-label">Kaydı başlat</span>
+        </button>
+        <div class="stt-record-side">
+          <div class="stt-timer" id="stt-timer">00:00</div>
+          <div class="stt-level"><div class="stt-level-fill" id="stt-level-fill"></div></div>
+        </div>
+      </div>
+      <div class="stt-divider"><span>veya</span></div>
+      <button id="stt-file-btn" class="stt-file-btn" type="button">
+        <span class="stt-file-icon">📁</span>
+        <span>Cihazından ses dosyası seç</span>
+        <small>MP3, M4A, WAV, OGG, WEBM · en fazla 5 dakika</small>
+      </button>
+      <input id="stt-file-input" type="file" accept="audio/*,video/mp4,.mp3,.m4a,.wav,.ogg,.oga,.opus,.webm,.aac,.flac" class="stt-file-input" />
+
+      <div id="stt-progress" class="stt-progress hidden">
+        <div class="stt-progress-track"><div class="stt-progress-fill" id="stt-progress-fill"></div></div>
+        <div class="stt-progress-meta">
+          <span id="stt-progress-label" aria-live="polite">Hazırlanıyor…</span>
+          <span id="stt-progress-percent">0%</span>
+        </div>
+      </div>
+      <p id="stt-error" class="stt-error hidden"></p>
+
+      <label class="stt-result-label" for="stt-result">Yazıya çevrilen metin <span id="stt-result-hint">(düzenleyebilirsin)</span></label>
+      <textarea id="stt-result" class="stt-result" rows="6" placeholder="Kaydettiğin ses burada yazıya dönüşecek…" spellcheck="false"></textarea>
+
+      <div class="stt-actions stt-actions-result">
+        <button id="stt-clear" class="btn-secondary" type="button">Temizle</button>
+        <button id="stt-copy" class="btn-secondary" type="button">Kopyala</button>
+        <button id="stt-insert" class="btn-primary" type="button" disabled>Nota ekle</button>
+      </div>
+
+      <div class="stt-foot">
+        <span id="stt-foot-info">Model cihazda saklanır.</span>
+        <button id="stt-delete-model" class="stt-link-danger" type="button">Modeli sil</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  function localeTag() {
+    try { return window.YazNotI18n ? window.YazNotI18n.locale() : 'tr-TR'; } catch (e) { return 'tr-TR'; }
+  }
+
   // ============ PWA: SERVICE WORKER ============
   // Tarayıcıda (mobil/PWA) çevrimdışı önbelleği devreye alır.
   // Masaüstü kabuğunda protokol file: olduğu için atlanır.
@@ -994,7 +998,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else if (e.type === 'group') {
         count = ((e.payload && e.payload.items) || []).length;
       }
-      var meta = trashTypeLabel(e.type) + ' · ' + where + ' · ' + new Date(e.deletedAt).toLocaleString('tr-TR');
+      var meta = trashTypeLabel(e.type) + ' · ' + where + ' · ' + new Date(e.deletedAt).toLocaleString(localeTag());
       if (count) meta += ' · ' + count + ' not';
 
       html += '<div class="trash-row">';
@@ -2097,7 +2101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var words = countWordsInHtml(it.content);
         gHtml += '<div class="book-card" data-id="' + it.id + '">';
         gHtml += '<div class="book-card-title">' + escapeHtml(it.title || 'Başlıksız') + '</div>';
-        gHtml += '<div class="book-card-meta">' + words.toLocaleString('tr-TR') + ' kelime</div>';
+        gHtml += '<div class="book-card-meta">' + words.toLocaleString(localeTag()) + ' kelime</div>';
         gHtml += '<button class="book-card-delete" data-id="' + it.id + '" title="Sil">×</button>';
         gHtml += '</div>';
       });
@@ -2313,7 +2317,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var words = countWordsInHtml(it.content);
         gHtml += '<div class="book-card" data-id="' + it.id + '">';
         gHtml += '<div class="book-card-title">' + escapeHtml(it.title || 'Başlıksız') + '</div>';
-        gHtml += '<div class="book-card-meta">' + words.toLocaleString('tr-TR') + ' kelime</div>';
+        gHtml += '<div class="book-card-meta">' + words.toLocaleString(localeTag()) + ' kelime</div>';
         gHtml += '<button class="book-card-delete" data-id="' + it.id + '" title="Sil">×</button>';
         gHtml += '</div>';
       });
@@ -2458,7 +2462,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function updateEditorStats() {
     var words = countWordsInHtml(editorContent.innerHTML);
-    editorWordCount.textContent = words.toLocaleString('tr-TR') + ' kelime';
+    editorWordCount.textContent = words.toLocaleString(localeTag()) + ' kelime';
     if (editorReadTime) {
       var minutes = Math.max(1, Math.round(words / 200));
       editorReadTime.textContent = '~' + minutes + ' dk okuma';
@@ -3339,7 +3343,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (restorePending.fileName) summary += ' · ' + restorePending.fileName;
       if (data && typeof data.exported_at === 'string') {
         var exportedAt = new Date(data.exported_at);
-        if (!isNaN(exportedAt.getTime())) summary += ' · ' + exportedAt.toLocaleString('tr-TR');
+        if (!isNaN(exportedAt.getTime())) summary += ' · ' + exportedAt.toLocaleString(localeTag());
       }
       restoreSummary.textContent = summary;
     }
@@ -4722,7 +4726,7 @@ document.addEventListener('DOMContentLoaded', function () {
       try { last = parseInt(localStorage.getItem(autoBackupStorageKey()) || '0', 10); } catch (e) {}
       var supported = window.api && window.api.autoBackup && window.api.platform === 'desktop';
       if (!supported) note.textContent = 'Otomatik yedekleme yalnızca masaüstü uygulamasında çalışır.';
-      else if (last) note.textContent = 'Otomatik yedek: son alınma ' + new Date(last).toLocaleString('tr-TR') + ' · günlük, son 7 kopya tutulur.';
+      else if (last) note.textContent = 'Otomatik yedek: son alınma ' + new Date(last).toLocaleString(localeTag()) + ' · günlük, son 7 kopya tutulur.';
       else note.textContent = 'Otomatik yedek: ilk kopya birazdan alınacak · günlük, son 7 kopya tutulur.';
     }
   }
@@ -4815,14 +4819,14 @@ document.addEventListener('DOMContentLoaded', function () {
   function openStats() {
     var st = computeStats();
     var cards = [
-      { v: st.sections.toLocaleString('tr-TR'), l: 'Bölüm', accent: true },
-      { v: st.notes.toLocaleString('tr-TR'), l: 'Not', accent: true },
-      { v: st.groups.toLocaleString('tr-TR'), l: 'Grup' },
-      { v: st.words.toLocaleString('tr-TR'), l: 'Kelime' },
-      { v: st.chars.toLocaleString('tr-TR'), l: 'Karakter' },
-      { v: st.images.toLocaleString('tr-TR'), l: 'Görsel' },
-      { v: '~' + Math.max(1, Math.round(st.words / 200)).toLocaleString('tr-TR') + ' dk', l: 'Toplam okuma' },
-      { v: st.hidden.toLocaleString('tr-TR'), l: 'Gizli bölüm' }
+      { v: st.sections.toLocaleString(localeTag()), l: 'Bölüm', accent: true },
+      { v: st.notes.toLocaleString(localeTag()), l: 'Not', accent: true },
+      { v: st.groups.toLocaleString(localeTag()), l: 'Grup' },
+      { v: st.words.toLocaleString(localeTag()), l: 'Kelime' },
+      { v: st.chars.toLocaleString(localeTag()), l: 'Karakter' },
+      { v: st.images.toLocaleString(localeTag()), l: 'Görsel' },
+      { v: '~' + Math.max(1, Math.round(st.words / 200)).toLocaleString(localeTag()) + ' dk', l: 'Toplam okuma' },
+      { v: st.hidden.toLocaleString(localeTag()), l: 'Gizli bölüm' }
     ];
     var html = '';
     cards.forEach(function (c) {
@@ -4832,7 +4836,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.getElementById('stats-grid').innerHTML = html;
     document.getElementById('stats-note').textContent = st.lastEdited
-      ? 'Son düzenleme: ' + new Date(st.lastEdited).toLocaleString('tr-TR')
+      ? 'Son düzenleme: ' + new Date(st.lastEdited).toLocaleString(localeTag())
       : 'Henüz düzenlenmiş bir not yok.';
     statsModal.classList.remove('hidden');
   }

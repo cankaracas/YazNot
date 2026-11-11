@@ -1283,6 +1283,20 @@ body.auth-locked #guide-fab { display: none; }
 .auth-status-error { color: var(--red); }
 .auth-status-ok { color: var(--green); }
 .auth-help { margin-top: 2px; color: var(--muted-2); font-size: 11px; line-height: 1.55; text-align: center; }
+.auth-lang {
+  display: flex; justify-content: center; gap: 0;
+  margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--line);
+}
+.auth-lang button {
+  background: transparent; color: var(--muted); border: 1px solid var(--line-strong);
+  min-width: 42px; min-height: 28px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.04em; cursor: pointer;
+}
+.auth-lang button:first-child { border-radius: 6px 0 0 6px; }
+.auth-lang button:last-child { border-left: 0; border-radius: 0 6px 6px 0; }
+.auth-lang button.active { background: var(--accent); border-color: var(--accent); color: #1d0e06; }
+#settings-language { margin-bottom: 14px; }
+#settings-language .type-option { min-height: 48px; }
 
 /* ============ KULLANIM KILAVUZU ============ */
 .guide-overlay { z-index: 750; }

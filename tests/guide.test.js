@@ -104,6 +104,17 @@ if (document.readyState !== 'loading') document.dispatchEvent(new window.Event('
   await wait(40);
   check('Esc kılavuzu kapatır', modal.classList.contains('hidden'));
 
+  console.log('\nİngilizce kılavuz');
+  const enPath = path.join(ROOT, 'ui', 'guide-content.en.js');
+  check('İngilizce kılavuz dosyası var', fs.existsSync(enPath));
+  if (fs.existsSync(enPath)) {
+    const enSrc = fs.readFileSync(enPath, 'utf8');
+    check('İngilizce kılavuz aynı bölüm sayısında',
+      (enSrc.match(/"id":/g) || []).length === sections.length);
+    check('İngilizce kılavuz başlığı doğru', enSrc.indexOf('"title": "User guide"') !== -1);
+    check('İngilizce kılavuzda ürün adı korunmuş', enSrc.indexOf('YazNot') !== -1);
+  }
+
   const pdfPath = path.join(ROOT, 'ui', 'yaznot-kullanim-kilavuzu.pdf');
   check('PDF dosyası pakette', fs.existsSync(pdfPath));
   if (fs.existsSync(pdfPath)) {

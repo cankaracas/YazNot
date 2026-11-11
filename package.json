@@ -30,7 +30,7 @@
     "preweb": "npm run setup",
     "guide": "node scripts/build-guide.mjs",
     "pretest": "npm run setup",
-    "test": "node scripts/build-vercel.mjs && node tests/smoke.test.js && node tests/accounts.test.js && node tests/auth-email.test.js && node tests/web.test.js && node tests/guide.test.js && node tests/vercel.test.js && node tests/stt.test.js",
+    "test": "node scripts/build-vercel.mjs && node tests/i18n.test.js && node tests/smoke.test.js && node tests/accounts.test.js && node tests/auth-email.test.js && node tests/web.test.js && node tests/guide.test.js && node tests/vercel.test.js && node tests/stt.test.js",
     "pretest:app": "npm run setup",
     "test:app": "node tests/stt-model.test.js",
     "tauri": "tauri",

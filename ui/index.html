@@ -6,11 +6,13 @@
 <link rel="stylesheet" href="style.css">
 <script src="supabase.min.js"></script>
 <script src="config.js"></script>
+<script src="i18n.js"></script>
 <script src="platform.js"></script>
 <script src="cloud-api.js"></script>
 <script src="auth.js" defer></script>
 <script src="stt/stt-app.js" defer></script>
 <script src="guide-content.js" defer></script>
+<script src="guide-content.en.js" defer></script>
 <script src="guide.js" defer></script>
 <script src="app.js" defer></script>
 </head>
@@ -509,6 +511,10 @@
       <button id="auth-back" class="auth-link" type="button">Farklı e-posta kullan</button>
     </div>
     <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
+    <div class="auth-lang" role="group" aria-label="Dil / Language">
+      <button type="button" data-set-lang="tr" aria-pressed="true">TR</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
   </div>
 </div>
 
@@ -564,6 +570,16 @@
 <div id="settings-modal" class="modal-overlay hidden">
   <div class="modal modal-settings" role="dialog" aria-modal="true">
     <h2 class="modal-title">Ayarlar</h2>
+
+    <label class="modal-field-label">Dil / Language</label>
+    <div class="type-picker" id="settings-language" role="group" aria-label="Dil / Language">
+      <button type="button" class="type-option" data-set-lang="tr" data-i18n-skip="1">
+        <span>Türkçe</span><small>Türkçe arayüz</small>
+      </button>
+      <button type="button" class="type-option" data-set-lang="en" data-i18n-skip="1">
+        <span>English</span><small>English interface</small>
+      </button>
+    </div>
 
     <label class="modal-field-label">Tema</label>
     <div class="type-picker" id="settings-theme">

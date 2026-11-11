@@ -1,369 +1,269 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YazNot 1.0 — Telefonda aç, bilgisayara indir</title>
-<meta name="description" content="YazNot 1.0: telefonda uygulama gibi aç, bilgisayarına indir. Bulut senkronlu notlar, cihazda sesten metne ve kullanım kılavuzu.">
-<meta name="theme-color" content="#111216">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="YazNot">
-<meta name="mobile-web-app-capable" content="yes">
+<title>YazNot — yaz, konuş, her yerde devam et</title>
+<meta name="description" content="Sade bir not defteri. Windows'ta çevrimdışı çalışır, telefonda uygulama gibi açılır; aynı hesapla notların her yerde aynı kalır.">
+<meta name="theme-color" content="#f3eee5">
 <meta name="format-detection" content="telephone=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="YazNot 1.0">
-<meta property="og:description" content="Telefonda uygulama gibi aç, bilgisayarına indir. Aynı hesapla her cihazda aynı notlar.">
+<meta property="og:title" content="YazNot">
+<meta property="og:description" content="Sade bir not defteri. Windows'ta çevrimdışı, telefonda uygulama gibi.">
 <meta property="og:image" content="app-shot.png">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
 <script>
-  (function () {
-    var query = location.search || '';
-    var hash = location.hash || '';
-
-    // Google/Supabase oturum dönüşü bu sayfaya düşerse doğrudan uygulamaya taşı.
-    if (/[?&]code=|access_token=|refresh_token=|error_description=|type=recovery/.test(query + hash)) {
-      location.replace('app/' + query + hash);
-      return;
+(function () {
+  try {
+    var query = new URLSearchParams(location.search).get('lang');
+    var lang = query;
+    if (lang !== 'tr' && lang !== 'en') lang = localStorage.getItem('yaznot_site_lang');
+    if (lang !== 'tr' && lang !== 'en') {
+      var browser = String(navigator.language || 'tr').toLowerCase();
+      lang = browser.indexOf('tr') === 0 ? 'tr' : 'en';
     }
-
-    // Ana ekrana eklenmiş bir kısayol bu sayfayı açarsa uygulamaya geç.
-    var standalone = window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true;
-    if (standalone) location.replace('app/');
-  })();
+    document.documentElement.lang = lang;
+    document.documentElement.dataset.lang = lang;
+  } catch (e) {}
+})();
 </script>
+<script>
+(function () {
+  var query = location.search || '';
+  var hash = location.hash || '';
+  if (/[?&]code=|access_token=|refresh_token=|error_description=|type=recovery/.test(query + hash)) {
+    location.replace('app/' + query + hash);
+    return;
+  }
+  var standalone = window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+  if (standalone) location.replace('app/');
+})();
+</script>
+<script src="site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main" data-i18n="skip">İçeriğe geç</a>
+
 <header class="topbar">
-  <a class="brand" href="#top" aria-label="YazNot">
-    <img src="logo-mark.png" alt="" width="28" height="28">
+  <a class="brand" href="#main" aria-label="YazNot">
+    <img src="logo-mark.png" alt="" width="26" height="26">
     <span class="brand-name">YazNot</span>
-    <span class="brand-pill">1.0</span>
+    <span class="brand-version">1.0</span>
   </a>
-  <nav class="topnav" aria-label="Sayfa bölümleri">
-    <a href="#bilgisayar">Windows</a>
-    <a href="#telefonda">Telefonda</a>
-    <a href="#tanitim">Tanıtım</a>
-    <a href="#kilavuz">Kılavuz</a>
-    <a href="#ozellikler">Özellikler</a>
+  <nav class="topnav" aria-label="Sayfa" data-i18n-aria="nav.aria">
+    <a href="#film" data-i18n="nav.film">Tanıtım</a>
+    <a href="#how" data-i18n="nav.how">Nasıl</a>
+    <a href="#desktop" data-i18n="nav.desktop">Windows</a>
+    <a href="#guide" data-i18n="nav.guide">Kılavuz</a>
+    <a href="https://github.com/cankaracas/YazNot" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
   </nav>
-  <a class="top-cta" href="app/" aria-label="Uygulamayı aç">
-    <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 19h3"/></svg>
-    <span>Uygulamayı aç</span>
-  </a>
+  <div class="top-actions">
+    <div class="lang" role="group" aria-label="Dil / Language">
+      <button type="button" data-set-lang="tr" aria-pressed="true">TR</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="top-cta" href="app/" data-i18n="nav.open">Uygulamayı aç</a>
+  </div>
 </header>
 
-<main id="top">
+<main id="main">
   <section class="hero">
-    <div class="hero-copy">
-      <span class="eyebrow"><span class="dot"></span> YazNot 1.0 · Telefon + Windows</span>
-      <h1>Yaz. Konuş.<br><span>Her yerde yanında.</span></h1>
-      <p class="lead">
-        YazNot'u telefonda uygulama gibi aç, bilgisayarına indir. Aynı hesapla
-        bütün notların her cihazda aynı; sesin cihazında yazıya dönüşür.
-        Sade, hızlı ve göz yormayan bir yazı defteri. Masaüstü kurulumu yalnızca 4,4 MB.
-      </p>
-      <div class="download-row">
-        <a class="btn-primary" href="app/">
-          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 19h3"/></svg>
-          <span>PWA'yı aç</span>
-          <small>Telefon + web</small>
-        </a>
-        <a class="btn-windows" href="YazNot-Setup-1.0.0.exe" download>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker" data-i18n="hero.kicker">YazNot 1.0 · Windows + web</p>
+        <h1 data-i18n-html="hero.title">Yaz. Konuş.<br><em>Gerisi kalsın.</em></h1>
+        <p class="lead" data-i18n="hero.lead">Sade bir not defteri. Windows'ta çevrimdışı çalışır, telefonda uygulama gibi açılır; aynı hesapla notların her yerde aynı kalır.</p>
+        <div class="actions">
+          <a class="btn btn-ink" href="app/">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 19h3"/></svg>
+            <span><b data-i18n="hero.open">Web uygulamasını aç</b><small data-i18n="hero.openSub">Telefon + tarayıcı</small></span>
+          </a>
+          <a class="btn btn-line" href="YazNot-Setup-1.0.0.exe" download>
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4 20h16"/></svg>
+            <span><b data-i18n="hero.download">Windows için indir</b><small data-i18n="hero.downloadSub">4,4 MB · ücretsiz</small></span>
+          </a>
+        </div>
+        <p class="hero-meta" data-i18n="hero.meta">Windows 10/11 · WebView2 · çevrimdışı</p>
+      </div>
+
+      <figure class="hero-visual">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="browser-title">YazNot 1.0</span>
+          </div>
+          <img src="app-shot.png" alt="YazNot uygulamasının bölüm ekranı" width="1200" height="730" data-i18n-alt="hero.alt">
+        </div>
+        <figcaption data-i18n="hero.caption">Masaüstü · aynı defter, iki ekran</figcaption>
+      </figure>
+    </div>
+    <div class="wrap strip" aria-label="Özellikler" data-i18n-aria="strip.aria">
+      <span data-i18n="strip.sections">Bölümler ve gruplar</span>
+      <span data-i18n="strip.speech">Cihazda sesten metne</span>
+      <span data-i18n="strip.export">PDF · TXT · Markdown</span>
+      <span data-i18n="strip.offline">Çevrimdışı</span>
+    </div>
+  </section>
+
+  <section class="band dark" id="film">
+    <div class="wrap">
+      <div class="band-head">
+        <div>
+          <p class="kicker light" data-i18n="film.kicker">37 saniye</p>
+          <h2 data-i18n="film.title">Kısa bir bakış.</h2>
+        </div>
+        <p class="band-lead" data-i18n="film.lead">Ne yaptığını gösteren sessiz bir tur.</p>
+      </div>
+      <div class="film-frame">
+        <video id="promo-video" controls playsinline preload="none" poster="tanitim-kapak.png" data-poster-tr="tanitim-kapak.png" data-poster-en="tanitim-en-kapak.png" width="1920" height="1080" data-i18n-aria="film.aria">
+          <source src="tanitim.mp4" type="video/mp4" data-src-tr="tanitim.mp4" data-src-en="tanitim-en.mp4">
+          <span data-i18n-html="film.fallback">Tarayıcın videoyu oynatamıyor. <a href="tanitim.mp4">MP4 olarak indir</a>.</span>
+        </video>
+      </div>
+      <p class="film-meta" data-i18n="film.meta">37 sn · sessiz · 1080p</p>
+    </div>
+  </section>
+
+  <section class="how" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker" data-i18n="how.kicker">Üç parça</p>
+        <h2 data-i18n="how.title">Üç şey yeter.</h2>
+        <p class="section-lead" data-i18n="how.lead">Yaz, konuş, sakla. Geri kalan ayrıntılar yolda kaybolmasın.</p>
+      </div>
+      <div class="how-grid">
+        <article>
+          <span class="index">01</span>
+          <h3 data-i18n="how.oneTitle">Yaz</h3>
+          <p data-i18n="how.oneBody">Bölümler, gruplar ve kitap gibi okuma. Düşünceni düzenli tut; arama ve odak modu gerisini halleder.</p>
+        </article>
+        <article>
+          <span class="index">02</span>
+          <h3 data-i18n="how.twoTitle">Konuş</h3>
+          <p data-i18n="how.twoBody">Türkçe ve İngilizce konuşmayı cihazında yazıya çevir. Kayıt sunucuya gitmez.</p>
+        </article>
+        <article>
+          <span class="index">03</span>
+          <h3 data-i18n="how.threeTitle">Sakla</h3>
+          <p data-i18n="how.threeBody">Aynı hesap, her cihaz. Günlük yedek, çevrimdışı çalışma ve PDF / TXT / Markdown çıkışı.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="desktop" id="desktop">
+    <div class="wrap split">
+      <div class="split-copy">
+        <p class="kicker" data-i18n="desktop.kicker">Windows</p>
+        <h2 data-i18n="desktop.title">Masaüstünde.</h2>
+        <p class="section-lead" data-i18n="desktop.lead">4,4 MB'lık tek kurulum. İnternet olmadan yaz, bağlantı gelince eşitle.</p>
+        <a class="btn btn-ink" href="YazNot-Setup-1.0.0.exe" download>
           <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4 20h16"/></svg>
-          <span>YazNot'u indir</span>
-          <small>Windows · ~4,4 MB</small>
+          <span><b data-i18n="desktop.download">YazNot'u indir</b><small data-i18n="desktop.downloadSub">Windows 10/11 · 64-bit</small></span>
         </a>
+        <p class="fine" data-i18n="desktop.note">İlk açılışta Windows uyarırsa: Daha fazla bilgi → Yine de çalıştır.</p>
       </div>
-      <div class="hero-links">
-        <a class="link-arrow" href="#tanitim">Tanıtımı izle →</a>
-        <a class="link-arrow" href="#kilavuz">Kullanım kılavuzu →</a>
-        <span class="micro">Telefonda: PWA'yı aç → tarayıcı menüsü → Ana Ekrana Ekle.</span>
-      </div>
-    </div>
 
-    <div class="hero-visual">
-      <div class="browser-card">
-        <div class="browser-bar"><span></span><span></span><span></span><em>YazNot 1.0</em></div>
-        <img class="app-shot" src="app-shot.png" alt="YazNot uygulamasının bölüm ekranı" width="1200" height="730">
-      </div>
-      <div class="guide-card">
-        <div class="guide-cover">
-          <img src="logo-mark.png" alt="" width="34" height="34">
-          <div class="guide-cover-title">Yaz<span>Not</span> 1.0</div>
-          <div class="guide-cover-sub">Kullanım Kılavuzu</div>
-          <div class="guide-cover-foot"><span>PDF · 9 sayfa</span><span class="mini-pill">SÜRÜM 1.0</span></div>
-        </div>
-        <div class="guide-info">
-          <h2>Önce kılavuza bak</h2>
-          <p>Kurulumdan önce her şeyi 5 dakikada öğren. Bölümler, sesten metne, içe/dışa aktarma ve kısayollar.</p>
-          <div class="guide-actions">
-            <a class="btn-soft" href="kilavuz.pdf" download>PDF'i indir</a>
-            <a class="link-arrow" href="#kilavuz">Sayfada oku →</a>
-          </div>
-        </div>
-      </div>
+      <aside class="receipt" aria-label="Windows kurulum bilgileri" data-i18n-aria="desktop.receiptAria">
+        <div class="receipt-top"><span>YAZNOT 1.0</span><span>WIN</span></div>
+        <p class="receipt-size" data-i18n-html="desktop.size">4,4<span>MB</span></p>
+        <dl>
+          <div><dt data-i18n="desktop.os">İşletim sistemi</dt><dd>Windows 10 / 11</dd></div>
+          <div><dt data-i18n="desktop.arch">Mimari</dt><dd>64-bit</dd></div>
+          <div><dt data-i18n="desktop.runtime">Çalışma ortamı</dt><dd>WebView2</dd></div>
+          <div><dt data-i18n="desktop.offlineLabel">Çevrimdışı</dt><dd data-i18n="desktop.offlineValue">Evet</dd></div>
+        </dl>
+        <a class="receipt-button" href="YazNot-Setup-1.0.0.exe" download data-i18n="desktop.receiptCta">Kurulumu indir</a>
+        <p class="receipt-file">YazNot-Setup-1.0.0.exe</p>
+      </aside>
     </div>
   </section>
 
-  <section id="tanitim" class="video-section">
-    <div class="section-head video-head">
-      <div>
-        <span class="eyebrow"><span class="dot"></span> Tanıtım</span>
-        <h2>37 saniyede YazNot</h2>
+  <section class="band dark phone-band" id="phone">
+    <div class="wrap split reverse">
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="phone-head"><span class="phone-mark"></span><span>YazNot</span></div>
+          <div class="phone-rule long"></div>
+          <div class="phone-note"><i></i><span></span></div>
+          <div class="phone-note"><i></i><span></span></div>
+          <div class="phone-note"><i></i><span></span></div>
+          <div class="phone-rule"></div>
+          <div class="phone-note"><i></i><span></span></div>
+        </div>
       </div>
-      <p class="video-lede">Notlar, arama, sesten metne ve 4,4 MB'lık masaüstü. Kısa, sessiz, doğrudan uygulamadan.</p>
-    </div>
-    <div class="video-shell">
-      <video class="promo-video" id="promo-video" controls playsinline preload="none" poster="tanitim-kapak.png" width="1920" height="1080" aria-label="YazNot tanıtım videosu">
-        <source src="tanitim.mp4" type="video/mp4">
-        Tarayıcın videoyu oynatamıyor. <a href="tanitim.mp4">MP4 olarak indir</a>.
-      </video>
-      <button class="video-play" id="promo-play" type="button" aria-label="Tanıtım videosunu oynat">
-        <span class="video-play-icon"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L13 8 5 3.2Z"/></svg></span>
-        <span class="video-play-text">Tanıtımı oynat<small>37 sn · sessiz</small></span>
-      </button>
-      <div class="video-meta">
-        <span>37 sn</span><span>Sessiz</span><span>1920 × 1080</span>
-        <a href="tanitim.mp4" download>MP4 indir</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="bilgisayar" class="platform-section">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow"><span class="dot"></span> Windows sürümü</span>
-        <h2>Bilgisayarına kur</h2>
-      </div>
-      <a class="btn-primary" href="YazNot-Setup-1.0.0.exe" download>
-        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4 20h16"/></svg>
-        <span>YazNot'u indir</span>
-        <small>~4,4 MB</small>
-      </a>
-    </div>
-    <div class="platform-grid">
-      <article class="platform-card">
-        <h3>Üç adımda hazır</h3>
+      <div class="split-copy">
+        <p class="kicker light" data-i18n="phone.kicker">Telefon</p>
+        <h2 data-i18n="phone.title">Cebinde.</h2>
+        <p class="section-lead" data-i18n="phone.lead">Web uygulamasını aç, tarayıcı menüsünden ana ekrana ekle. Mağaza yok, ayrı indirme yok.</p>
         <ol class="steps">
-          <li><b>İndir:</b> <code>YazNot-Setup-1.0.0.exe</code> dosyasını çalıştır.</li>
-          <li><b>Kur:</b> Windows "tanınmayan uygulama" derse <b>Daha fazla bilgi → Yine de çalıştır</b>.</li>
-          <li><b>Aç:</b> İlk açılışta kullanım kılavuzu önüne gelir; giriş yapıp yazmaya başla.</li>
+          <li><span>01</span><b data-i18n="phone.step1">Web uygulamasını aç.</b></li>
+          <li><span>02</span><b data-i18n="phone.step2">Ana ekrana ekle.</b></li>
         </ol>
-      </article>
-      <article class="platform-card">
-        <h3>Masaüstünde neler var?</h3>
-        <ul class="platform-list">
-          <li>Windows 10/11 · 64-bit (WebView2 hazır)</li>
-          <li>Hafif kurulum: ~4,4 MB, hızlı açılış</li>
-          <li>Günlük otomatik yedek · hesap başına son 7 kopya</li>
-          <li>Çevrimdışı çalışma, bağlantı gelince otomatik senkron</li>
-          <li>Sesten metne, kitap gibi okuma, PDF / TXT / Markdown</li>
-        </ul>
-        <p class="micro">Kurulum dosyası: <b>YazNot-Setup-1.0.0.exe</b></p>
-      </article>
-    </div>
-  </section>
-
-  <section id="telefonda" class="mobile-section">
-    <div class="mobile-copy">
-      <span class="eyebrow"><span class="dot"></span> Telefonda uygulama</span>
-      <h2>Ana ekranına ekle, uygulama gibi kullan</h2>
-      <p>PWA'yı aç; Android'de <b>Uygulamayı yükle</b>, iPhone'da <b>Ana Ekrana Ekle</b>.
-        Ana ekrandan açtığında doğrudan YazNot açılır — bu indirme sayfası bir daha görünmez.</p>
-      <div class="mobile-actions">
-        <a class="btn-primary" href="app/">
-          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 19h3"/></svg>
-          <span>PWA'yı aç</span>
-        </a>
-        <a class="btn-ghost" href="kilavuz.pdf" download>Kılavuz PDF</a>
-      </div>
-      <ol class="steps">
-        <li><b>PWA'yı aç.</b> Uygulama giriş ekranı açılır; e-posta veya Google ile gir.</li>
-        <li><b>Ana ekrana ekle.</b> Android Chrome: menü → <b>Uygulamayı yükle</b>. iPhone Safari: <b>Paylaş</b> → <b>Ana Ekrana Ekle</b>.</li>
-        <li><b>Kullan.</b> Artık ana ekrandaki YazNot simgesi doğrudan uygulamayı açar.</li>
-      </ol>
-      <p class="micro" id="install-hint">Android: Chrome menüsü → Uygulamayı yükle · iPhone: Safari → Paylaş → Ana Ekrana Ekle.</p>
-    </div>
-    <div class="phone-card" aria-hidden="true">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="phone-top"><span>☰</span><b>Ders Notları</b><span>⋯</span></div>
-        <div class="phone-line wide"></div>
-        <div class="phone-line"></div>
-        <div class="phone-note"><b>Osmanlı Devleti</b><small>Kuruluş dönemi notları…</small></div>
-        <div class="phone-note"><b>İklim tipleri</b><small>Akdeniz, Karadeniz…</small></div>
-        <div class="phone-note"><b>Türkçe ses olayları</b><small>Ünlü düşmesi…</small></div>
+        <p class="fine light" data-i18n="phone.note">Android: Uygulamayı yükle · iPhone: Paylaş → Ana Ekrana Ekle</p>
+        <a class="text-link" href="app/" data-i18n="phone.cta">Uygulamayı aç →</a>
       </div>
     </div>
   </section>
 
-  <section id="kilavuz" class="guide-section">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow"><span class="dot"></span> Kullanım kılavuzu</span>
-        <h2>İndirmeden önce okuyabilirsin</h2>
-      </div>
-      <div class="section-actions">
-        <a class="btn-ghost" href="kilavuz.pdf" target="_blank" rel="noopener">Yeni sekmede aç</a>
-        <a class="btn-soft" href="kilavuz.pdf" download>PDF olarak indir</a>
-      </div>
-    </div>
-    <div class="guide-highlights">
-      <div class="highlight">
-        <span class="highlight-num">04</span>
-        <h3>Bölümler ve notlar</h3>
-        <p>Düz liste veya alt kategorili düzen; emoji, renk ve kart görünümü.</p>
-      </div>
-      <div class="highlight">
-        <span class="highlight-num">06</span>
-        <h3>Sesten metne</h3>
-        <p>Mikrofonla kaydet veya ses dosyası yükle; yazı cihazında çıksın.</p>
-      </div>
-      <div class="highlight">
-        <span class="highlight-num">08</span>
-        <h3>Dışa ve içe aktarma</h3>
-        <p>PDF, TXT ve Markdown dışa aktar; üçünü de içe aktar.</p>
-      </div>
-      <div class="highlight">
-        <span class="highlight-num">12</span>
-        <h3>Kısayollar</h3>
-        <p>Ctrl + K ile ara, Ctrl + Shift + F ile odak moduna geç.</p>
-      </div>
-    </div>
-    <div class="pdf-frame-wrap">
-      <div class="pdf-frame-top">
-        <span class="pdf-file">YazNot-Kullanim-Kilavuzu.pdf</span>
-        <span class="pdf-hint">Kılavuz uygulamanın içinde de var: sağ alttaki <b>?</b> düğmesi.</span>
-      </div>
-      <object class="pdf-frame" data="kilavuz.pdf#view=FitH" type="application/pdf" aria-label="YazNot Kullanım Kılavuzu PDF">
-        <div class="pdf-fallback-content">
-          <img src="logo-mark.png" alt="" width="42" height="42">
-          <h3>Kılavuzu burada gösteremiyoruz</h3>
-          <p>Tarayıcın gömülü PDF görüntülemeyi desteklemiyor olabilir. Kılavuzu yeni sekmede açabilir veya indirebilirsin.</p>
-          <div class="pdf-fallback-actions">
-            <a class="btn-soft" href="kilavuz.pdf" target="_blank" rel="noopener">Yeni sekmede aç</a>
-            <a class="btn-ghost" href="kilavuz.pdf" download>PDF olarak indir</a>
-          </div>
+  <section class="guide" id="guide">
+    <div class="wrap split">
+      <div class="book" aria-hidden="true">
+        <div class="book-face">
+          <img src="logo-mark.png" alt="" width="34" height="34">
+          <p class="book-name">YazNot</p>
+          <p class="book-sub" data-i18n="guide.cover">Kullanım kılavuzu</p>
+          <p class="book-edition">1.0</p>
         </div>
-      </object>
-      <div class="pdf-fallback">
-        PDF görüntülenemiyorsa <a href="kilavuz.pdf" target="_blank" rel="noopener">buradan açabilir</a>
-        veya <a href="kilavuz.pdf" download>indirebilirsin</a>.
       </div>
-    </div>
-  </section>
-
-  <section id="ozellikler" class="features">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow"><span class="dot"></span> Neler var?</span>
-        <h2>Yazmayı kolaylaştıran her şey</h2>
+      <div class="split-copy">
+        <p class="kicker" data-i18n="guide.kicker">Kılavuz</p>
+        <h2 data-i18n="guide.title">Takıldığında.</h2>
+        <p class="section-lead" data-i18n="guide.lead">Kılavuz uygulamanın içinde; PDF sürümü de burada. Bölümler, ses, dışa aktarma ve kısayollar.</p>
+        <ul class="topics">
+          <li><span>01</span><b data-i18n="guide.topic1">Kurulum ve ilk not</b></li>
+          <li><span>02</span><b data-i18n="guide.topic2">Sesten metne</b></li>
+          <li><span>03</span><b data-i18n="guide.topic3">Kısayollar ve dışa aktarma</b></li>
+        </ul>
+        <div class="guide-actions">
+          <a class="btn btn-line" href="kilavuz.pdf" target="_blank" rel="noopener">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V5a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M13 3.5v5h5"/></svg>
+            <span data-i18n="guide.pdf">PDF'i aç</span>
+          </a>
+          <a class="text-link" href="app/" data-i18n="guide.open">Uygulamada aç →</a>
+        </div>
+        <p class="fine" data-i18n="guide.pdfNote">PDF · 9 sayfa · Türkçe</p>
       </div>
-    </div>
-    <div class="feature-grid">
-      <article class="feature">
-        <div class="feature-icon">📚</div>
-        <h3>Bölüm → grup → not</h3>
-        <p>Ders, kitap, günlük… Her iş için ayrı bölüm; istersen içine alt gruplar aç.</p>
-      </article>
-      <article class="feature">
-        <div class="feature-icon">🎙</div>
-        <h3>Sesten metne</h3>
-        <p>Türkçe ve İngilizce konuşmayı cihazında yazıya çevir. Ses dışarı çıkmaz, çevrimdışı çalışır.</p>
-        <span class="model-credit">Duyu-small · Apache-2.0</span>
-      </article>
-      <article class="feature">
-        <div class="feature-icon">☁️</div>
-        <h3>Her cihazda aynı</h3>
-        <p>Bilgisayarda başla, telefonda devam et. Bağlantı gelince notlar kendiliğinden eşitlenir.</p>
-      </article>
-      <article class="feature">
-        <div class="feature-icon">📄</div>
-        <h3>PDF, TXT, Markdown</h3>
-        <p>Dışa aktar; PDF, TXT ve Markdown içe aktar. Markdown biçimi korunarak eklenir.</p>
-      </article>
-      <article class="feature">
-        <div class="feature-icon">📖</div>
-        <h3>Kitap gibi oku</h3>
-        <p>Bölümü baştan sona, yazı yazmadan oku. İlerleme yüzdesi üstte kalır.</p>
-      </article>
-      <article class="feature">
-        <div class="feature-icon">🕊</div>
-        <h3>Sade arayüz</h3>
-        <p>Göz yormayan koyu ve açık tema; odak modu; ikincil işlemler menülerde saklı.</p>
-      </article>
-    </div>
-  </section>
-
-  <section id="tesekkur" class="credits">
-    <div>
-      <span class="eyebrow"><span class="dot"></span> Açık kaynakla</span>
-      <h2>Duyu-small ve geliştiricilere teşekkürler</h2>
-      <p>Sesten metne, <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Kaan Aydınlı'nın Duyu-small</a> modeliyle çalışır (Apache-2.0). Model cihazda çalışır; ses dışarı çıkmaz.</p>
-      <p class="credits-note">Tauri, ONNX Runtime, PDF.js ve Supabase ekiplerine; kodunu, modelini ve emeğini açıkça paylaşan bütün geliştiricilere teşekkürler. Bu uygulama, başkalarının açıkça paylaştığı emeğin üzerine kurulu.</p>
-    </div>
-    <div class="credit-tags" aria-label="Kullanılan açık kaynak bileşenler">
-      <span>Duyu-small · Apache-2.0</span>
-      <span>Tauri 2</span>
-      <span>ONNX Runtime</span>
-      <span>PDF.js</span>
-      <span>Supabase</span>
     </div>
   </section>
 </main>
 
 <footer class="footer">
-  <div class="footer-brand">
-    <img src="logo-mark.png" alt="" width="22" height="22">
-    <span>YazNot 1.0</span>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#main">
+        <img src="logo-mark.png" alt="" width="24" height="24">
+        <span class="brand-name">YazNot</span>
+      </a>
+      <p data-i18n="footer.tagline">Notların senin. İstediğin cihazdan, istediğin zaman.</p>
+    </div>
+    <nav class="footer-nav" aria-label="Alt bağlantılar" data-i18n-aria="footer.navAria">
+      <a href="app/" data-i18n="footer.app">Uygulama</a>
+      <a href="YazNot-Setup-1.0.0.exe" download data-i18n="footer.download">Windows</a>
+      <a href="kilavuz.pdf" data-i18n="footer.guide">Kılavuz</a>
+      <a href="https://github.com/cankaracas/YazNot" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://github.com/cankaracas/YazNot/blob/main/ACKNOWLEDGEMENTS.md" target="_blank" rel="noopener" data-i18n="footer.ack">Teşekkürler</a>
+      <a href="https://github.com/cankaracas/YazNot/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>
+    </nav>
   </div>
-  <p>Notların senin. İstediğin cihazdan, istediğin zaman.</p>
-  <div class="footer-links">
-    <a href="app/">Uygulamayı aç</a>
-    <a href="#tanitim">Tanıtım</a>
-    <a href="#bilgisayar">Windows indir</a>
-    <a href="#kilavuz">Kılavuz</a>
-    <a href="#tesekkur">Teşekkür</a>
+  <div class="wrap colophon">
+    <span data-i18n="footer.colophon">Açık kaynak · MIT lisansı</span>
+    <span>© 2026 YazNot</span>
   </div>
-  <div class="footer-credit">Sesten metne: Duyu-small (Kaan Aydınlı) · Apache-2.0</div>
 </footer>
-
-<script>
-  // Tanıtım videosu: poster üzerindeki oynat düğmesi.
-  (function () {
-    var video = document.getElementById('promo-video');
-    var play = document.getElementById('promo-play');
-    if (!video || !play) return;
-    function start() {
-      if (play.parentNode) play.parentNode.removeChild(play);
-      var result = video.play();
-      if (result && result.catch) result.catch(function () {});
-    }
-    play.addEventListener('click', start);
-    video.addEventListener('play', function () {
-      if (play.parentNode) play.parentNode.removeChild(play);
-    });
-  })();
-
-  // Telefonda kurulum ipucunu cihaza göre kişiselleştir.
-  (function () {
-    var hint = document.getElementById('install-hint');
-    if (!hint) return;
-    var ua = navigator.userAgent || '';
-    var iOS = /iPad|iPhone|iPod/.test(ua) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    var android = /Android/.test(ua);
-    hint.textContent = iOS
-      ? 'iPhone / iPad: PWA’yı aç → Safari Paylaş → Ana Ekrana Ekle.'
-      : android
-        ? 'Android: PWA’yı aç → Chrome menüsü → Uygulamayı yükle.'
-        : 'Telefonda: PWA’yı aç → tarayıcı menüsü → Ana Ekrana Ekle.';
-  })();
-</script>
 </body>
 </html>
