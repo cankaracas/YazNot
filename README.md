@@ -4,7 +4,7 @@
 
 A quiet, cloud-synced notebook for Windows and the web. The desktop app is
 built with **Tauri 2** and **Rust**; the same interface ships as an installable
-**PWA** for phones and browsers.
+**PWA** for phones and browsers. The interface is Turkish and English.
 
 ![The YazNot editor](vercel/app-shot.png)
 

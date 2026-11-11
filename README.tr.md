@@ -4,7 +4,7 @@
 
 Windows ve web için sakin, bulut senkronlu bir not defteri. Masaüstü uygulaması
 **Tauri 2** ve **Rust** ile yazıldı; aynı arayüz telefonda ve tarayıcıda
-kurulabilen bir **PWA** olarak da çalışır.
+kurulabilen bir **PWA** olarak da çalışır. Arayüz Türkçe ve İngilizcedir.
 
 ![YazNot editörü](vercel/app-shot.png)
 
