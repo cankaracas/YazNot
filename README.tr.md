@@ -1,4 +1,4 @@
-# YazNot
+﻿# YazNot
 
 [English](README.md) · **Türkçe**
 
@@ -6,7 +6,7 @@ Windows ve web için sakin, bulut senkronlu bir not defteri. Masaüstü uygulama
 **Tauri 2** ve **Rust** ile yazıldı; aynı arayüz telefonda ve tarayıcıda
 kurulabilen bir **PWA** olarak da çalışır. Arayüz Türkçe ve İngilizcedir.
 
-![YazNot editörü](vercel/app-shot.png)
+![YazNot editörü](vercel/app-shot-tr.png)
 
 YazNot notları **bölüm → grup → not** olarak tutar, önce cihazda saklar ve
 senin sahip olduğun bir Supabase projesi üzerinden eşitler. Sesten metne

@@ -198,6 +198,12 @@
     var ogDescription = document.querySelector('meta[property="og:description"]');
     if (ogDescription) ogDescription.setAttribute('content', dict['meta.ogDescription'][lang]);
 
+    var shot = document.querySelector('.browser img');
+    if (shot) {
+      var nextShot = shot.getAttribute('data-shot-' + lang);
+      if (nextShot && shot.getAttribute('src') !== nextShot) shot.setAttribute('src', nextShot);
+    }
+
     var video = document.getElementById('promo-video');
     if (video) {
       var source = video.querySelector('source');

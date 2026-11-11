@@ -1,4 +1,4 @@
-/**
+﻿/**
  * YazNot — Vercel sitesi testi
  *
  * `vercel/` klasörünün Vercel Drop'a hazır olduğunu denetler:
@@ -51,7 +51,7 @@ function refsOf(html) {
 
 console.log('Vercel klasörü');
 ['index.html', 'style.css', 'manifest.json', 'vercel.json', 'kilavuz.pdf',
- 'app-shot.png', 'logo-mark.png'].forEach(function (f) {
+ 'app-shot.png', 'app-shot-tr.png', 'logo-mark.png'].forEach(function (f) {
   check('dosya var: ' + f, exists(path.join(SITE, f)));
 });
 
