@@ -69,6 +69,8 @@ Out of scope:
 - Google sign-in runs in a dedicated in-app window with its own WebView2 data
   directory. It accepts the HTTPS return URL and the `yaznot://auth` redirect
   locally; tokens are never sent to a third-party server.
+- PDF.js runs with `isEvalSupported: false`; this closes the eval-based
+  font path used by CVE-2024-4367 in PDF.js 3.11.x.
 - The PWA responses set a Content Security Policy, `X-Content-Type-Options`,
   `Referrer-Policy`, `Permissions-Policy` and `X-Frame-Options`.
 - Release builds contain no test-only confirmation or file-dialog bypasses.

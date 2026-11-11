@@ -4443,7 +4443,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var lib = await loadPdfJs();
     if (!lib) throw new Error('PDF kütüphanesi yüklenemedi');
     try { if (!lib.GlobalWorkerOptions.workerSrc) lib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js'; } catch (e) {}
-    var doc = await lib.getDocument({ data: arrayBuffer }).promise;
+    // CVE-2024-4367: PDF.js 3.11'in eval tabanlı font yolu, kötü niyetli
+    // bir PDF'te JavaScript çalıştırabiliyor. Metin çıkarma için eval'e
+    // ihtiyaç yok; kapatıyoruz.
+    var doc = await lib.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
     try {
       var pages = [];
       for (var i = 1; i <= doc.numPages; i++) {
