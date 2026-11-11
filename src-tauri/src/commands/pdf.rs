@@ -1,4 +1,4 @@
-use tauri::AppHandle;
+use tauri::{AppHandle, WebviewWindow};
 
 use crate::paths;
 use crate::results::SaveResult;
@@ -11,7 +11,15 @@ use crate::results::SaveResult;
 /// tarayıcının yazdırma penceresine düşer; kullanıcı yine "PDF olarak kaydet"
 /// seçebilir.
 #[tauri::command(async)]
-pub fn export_pdf(app: AppHandle, title: String, html: String) -> SaveResult {
+pub fn export_pdf(
+    app: AppHandle,
+    window: WebviewWindow,
+    title: String,
+    html: String,
+) -> SaveResult {
+    if let Err(message) = crate::commands::require_main(&window) {
+        return SaveResult::error(message);
+    }
     let file_name = format!("{}.pdf", paths::safe_file_name(&title, "belge"));
 
     #[cfg(windows)]
@@ -40,7 +48,8 @@ pub fn export_pdf(app: AppHandle, title: String, html: String) -> SaveResult {
 pub fn document(html: &str) -> String {
     let body = strip_scripts(html);
     format!(
-        "<!DOCTYPE html><html lang=\"tr\"><head><meta charset=\"utf-8\"></head><style>\
+        "<!DOCTYPE html><html lang=\"tr\"><head><meta charset=\"utf-8\">\
+         <meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; img-src data: blob: https:; style-src 'unsafe-inline'; script-src 'none'; object-src 'none'; connect-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'\"></head><style>\
          html,body{{margin:0;padding:0;background:#fff;color:#111;}}\
          body{{font-family:\"Segoe UI\",Roboto,Arial,Helvetica,sans-serif;font-size:13pt;line-height:1.6;padding:48px;}}\
          h1,h2,h3{{font-weight:700;margin:0.6em 0 0.3em;page-break-after:avoid;}}\
@@ -81,7 +90,7 @@ mod render {
     use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
     use tauri::webview::PageLoadEvent;
-    use tauri::{AppHandle, WebviewUrl, WebviewWindowBuilder};
+    use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
     use webview2_com::Microsoft::Web::WebView2::Win32::{
         ICoreWebView2PrintSettings, ICoreWebView2_7,
     };
@@ -118,7 +127,17 @@ mod render {
         let loaded = Arc::new(AtomicBool::new(false));
         let loaded_flag = loaded.clone();
 
+        // Ayrı WebView2 veri klasörü: ikinci pencerenin açılamaması
+        // (HRESULT 0x8007139F) sorununu önler.
+        let print_data_dir = app
+            .path()
+            .app_local_data_dir()
+            .unwrap_or_else(|_| std::env::temp_dir())
+            .join("print-webview");
+        let _ = std::fs::create_dir_all(&print_data_dir);
+
         let window = WebviewWindowBuilder::new(app, &label, WebviewUrl::App("print.html".into()))
+            .data_directory(print_data_dir)
             .title("YazNot")
             .visible(false)
             .inner_size(900.0, 1200.0)

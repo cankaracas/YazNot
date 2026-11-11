@@ -1,10 +1,10 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use serde::Serialize;
 use serde_json::Value;
-use tauri::{AppHandle, Manager};
+use tauri::{AppHandle, Manager, WebviewWindow};
 
-use crate::commands::{open_dialog, save_dialog};
+use crate::commands::{open_dialog, require_main, save_dialog};
 use crate::paths;
 use crate::results::{AutoBackupResult, ImportResult, SaveResult};
 use crate::utc;
@@ -12,9 +12,13 @@ use crate::utc;
 const KEEP_COPIES: usize = 7;
 const AUTO_PREFIX: &str = "yaznot-oto-";
 const USER_PREFIX: &str = "yaznot-yedek-";
+const MAX_BACKUP_BYTES: u64 = 80 * 1024 * 1024;
 
 #[tauri::command(async)]
-pub fn export_backup(app: AppHandle, payload: Value) -> SaveResult {
+pub fn export_backup(app: AppHandle, window: WebviewWindow, payload: Value) -> SaveResult {
+    if let Err(err) = require_main(&window) {
+        return SaveResult::error(err);
+    }
     let file_name = format!("{USER_PREFIX}{}.json", utc::file_stamp(&utc::now()));
     let Some(path) = save_dialog(&app, "Yedek Oluştur", &file_name, "YazNot Yedek", &["json"]) else {
         return SaveResult::canceled();
@@ -31,14 +35,44 @@ pub fn export_backup(app: AppHandle, payload: Value) -> SaveResult {
 
 /// Yedek dosyasını açar. `path` verilirse diyalog gösterilmez (bulunan yedek).
 #[tauri::command(async)]
-pub fn import_backup(app: AppHandle, path: Option<String>) -> ImportResult {
+pub fn import_backup(
+    app: AppHandle,
+    window: WebviewWindow,
+    path: Option<String>,
+) -> ImportResult {
+    if let Err(err) = require_main(&window) {
+        return ImportResult {
+            ok: false,
+            error: Some(err),
+            ..Default::default()
+        };
+    }
+
     let selected = match path {
-        Some(path) => std::path::PathBuf::from(path),
+        Some(path) => {
+            let path = PathBuf::from(path);
+            if !is_allowed_backup_path(&app, &path) {
+                return ImportResult {
+                    ok: false,
+                    error: Some("Bu dosya bir YazNot yedeği değil.".into()),
+                    ..Default::default()
+                };
+            }
+            path
+        }
         None => match open_dialog(&app, "Yedekten Geri Yükle", &[("YazNot Yedek", &["json"])]) {
             Some(path) => path,
             None => return ImportResult { ok: false, canceled: Some(true), ..Default::default() },
         },
     };
+
+    if !is_plausible_backup_file(&selected) {
+        return ImportResult {
+            ok: false,
+            error: Some("Yedek dosyası okunamadı.".into()),
+            ..Default::default()
+        };
+    }
 
     let raw = match std::fs::read_to_string(&selected) {
         Ok(raw) => raw,
@@ -64,7 +98,10 @@ pub fn import_backup(app: AppHandle, path: Option<String>) -> ImportResult {
 
 /// Günlük otomatik yedek; hesap başına son 7 kopya tutulur.
 #[tauri::command(async)]
-pub fn auto_backup(app: AppHandle, payload: Value) -> AutoBackupResult {
+pub fn auto_backup(app: AppHandle, window: WebviewWindow, payload: Value) -> AutoBackupResult {
+    if let Err(err) = require_main(&window) {
+        return AutoBackupResult { ok: false, error: Some(err), ..Default::default() };
+    }
     let dirs = match paths::ensure(&app) {
         Ok(dirs) => dirs,
         Err(err) => return AutoBackupResult { ok: false, error: Some(err), ..Default::default() },
@@ -131,7 +168,14 @@ pub struct FoundBackups {
 /// geri yükleyebilmek için kullanılır. İndirilenler, Masaüstü ve uygulamanın
 /// kendi yedek klasörü taranır; yalnızca içinde `sections` olan dosyalar sayılır.
 #[tauri::command(async)]
-pub fn find_backups(app: AppHandle) -> FoundBackups {
+pub fn find_backups(app: AppHandle, window: WebviewWindow) -> FoundBackups {
+    if let Err(err) = require_main(&window) {
+        return FoundBackups {
+            ok: false,
+            error: Some(err),
+            ..Default::default()
+        };
+    }
     let mut backups = Vec::new();
 
     if let Ok(downloads) = app.path().download_dir() {
@@ -148,6 +192,54 @@ pub fn find_backups(app: AppHandle) -> FoundBackups {
     FoundBackups { ok: true, backups, error: None }
 }
 
+fn is_plausible_backup_file(path: &Path) -> bool {
+    let Ok(meta) = std::fs::metadata(path) else { return false };
+    meta.is_file() && meta.len() > 0 && meta.len() <= MAX_BACKUP_BYTES
+}
+
+/// Yalnızca uygulamanın izin verdiği klasörlerdeki, YazNot adlandırma kuralına
+/// uyan yedekleri okur. Arayüzden gelen serbest bir yol ile rastgele dosya
+/// okunmasını engeller.
+fn is_allowed_backup_path(app: &AppHandle, path: &Path) -> bool {
+    let Some(name) = path.file_name().and_then(|n| n.to_str()) else { return false };
+    let lower = name.to_ascii_lowercase();
+    if !lower.ends_with(".json") {
+        return false;
+    }
+    if !(name.starts_with(USER_PREFIX) || name.starts_with(AUTO_PREFIX)) {
+        return false;
+    }
+    if !is_plausible_backup_file(path) {
+        return false;
+    }
+    let Ok(canonical) = std::fs::canonicalize(path) else { return false };
+    let canonical = canonical.to_string_lossy().to_ascii_lowercase();
+    let mut roots = vec![paths::root(app).join("backups")];
+    if let Ok(downloads) = app.path().download_dir() {
+        roots.push(downloads);
+    }
+    if let Ok(desktop) = app.path().desktop_dir() {
+        roots.push(desktop);
+    }
+    roots.into_iter().any(|root| {
+        std::fs::canonicalize(root)
+            .map(|root| path_is_within(Path::new(&canonical), &root))
+            .unwrap_or(false)
+    })
+}
+
+fn path_is_within(path: &Path, root: &Path) -> bool {
+    let path: Vec<String> = path
+        .components()
+        .map(|part| part.as_os_str().to_string_lossy().to_ascii_lowercase())
+        .collect();
+    let root: Vec<String> = root
+        .components()
+        .map(|part| part.as_os_str().to_string_lossy().to_ascii_lowercase())
+        .collect();
+    path.starts_with(&root)
+}
+
 fn collect(dir: &Path, kind: &'static str, out: &mut Vec<BackupFile>) {
     let Ok(entries) = std::fs::read_dir(dir) else {
         return;
@@ -162,7 +254,7 @@ fn collect(dir: &Path, kind: &'static str, out: &mut Vec<BackupFile>) {
             continue;
         }
         let Ok(meta) = entry.metadata() else { continue };
-        if meta.len() == 0 || meta.len() > 80 * 1024 * 1024 {
+        if meta.len() == 0 || meta.len() > MAX_BACKUP_BYTES {
             continue;
         }
         let path = entry.path();

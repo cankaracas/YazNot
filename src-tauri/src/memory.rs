@@ -40,5 +40,8 @@ pub fn apply(window: &WebviewWindow, low: bool) {
 
 #[tauri::command]
 pub fn set_memory_level(window: WebviewWindow, low: bool) {
+    if crate::commands::require_main(&window).is_err() {
+        return;
+    }
     apply(&window, low);
 }

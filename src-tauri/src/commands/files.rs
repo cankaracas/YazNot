@@ -1,13 +1,22 @@
-use tauri::AppHandle;
+use tauri::{AppHandle, Url, WebviewWindow};
 
-use crate::commands::save_dialog;
+use crate::commands::{require_main, save_dialog};
 use crate::paths;
 use crate::results::{SaveResult, SimpleResult};
 
 const GUIDE_PDF: &[u8] = include_bytes!("../../../ui/yaznot-kullanim-kilavuzu.pdf");
 
 #[tauri::command(async)]
-pub fn save_text_file(app: AppHandle, title: String, text: String, ext: String) -> SaveResult {
+pub fn save_text_file(
+    app: AppHandle,
+    window: WebviewWindow,
+    title: String,
+    text: String,
+    ext: String,
+) -> SaveResult {
+    if let Err(err) = require_main(&window) {
+        return SaveResult::error(err);
+    }
     let ext = match ext.as_str() {
         "md" => "md",
         "html" => "html",
@@ -38,7 +47,10 @@ pub fn save_text_file(app: AppHandle, title: String, text: String, ext: String) 
 
 /// Kılavuz PDF'i uygulamanın içinden kopyalanır; internet gerekmez.
 #[tauri::command(async)]
-pub fn save_guide_pdf(app: AppHandle) -> SaveResult {
+pub fn save_guide_pdf(app: AppHandle, window: WebviewWindow) -> SaveResult {
+    if let Err(err) = require_main(&window) {
+        return SaveResult::error(err);
+    }
     let Some(path) = save_dialog(
         &app,
         "Kullanım Kılavuzunu Kaydet",
@@ -55,15 +67,29 @@ pub fn save_guide_pdf(app: AppHandle) -> SaveResult {
 }
 
 #[tauri::command(async)]
-pub fn open_external(url: String) -> SimpleResult {
-    let lower = url.to_lowercase();
-    if !(lower.starts_with("http://") || lower.starts_with("https://")) {
+pub fn open_external(window: WebviewWindow, url: String) -> SimpleResult {
+    if let Err(err) = require_main(&window) {
+        return SimpleResult { ok: false, error: Some(err) };
+    }
+    let Ok(parsed) = Url::parse(&url) else {
+        return SimpleResult {
+            ok: false,
+            error: Some("Geçersiz bağlantı".into()),
+        };
+    };
+    if parsed.scheme() != "http" && parsed.scheme() != "https" {
         return SimpleResult {
             ok: false,
             error: Some("Yalnızca http/https bağlantıları açılabilir".into()),
         };
     }
-    match open::that_detached(&url) {
+    if parsed.host_str().is_none() {
+        return SimpleResult {
+            ok: false,
+            error: Some("Geçersiz bağlantı".into()),
+        };
+    }
+    match open::that_detached(parsed.as_str()) {
         Ok(()) => SimpleResult {
             ok: true,
             error: None,
@@ -76,7 +102,10 @@ pub fn open_external(url: String) -> SimpleResult {
 }
 
 #[tauri::command(async)]
-pub fn open_backups_folder(app: AppHandle) -> SimpleResult {
+pub fn open_backups_folder(app: AppHandle, window: WebviewWindow) -> SimpleResult {
+    if let Err(err) = require_main(&window) {
+        return SimpleResult { ok: false, error: Some(err) };
+    }
     let dirs = match paths::ensure(&app) {
         Ok(dirs) => dirs,
         Err(err) => {
@@ -112,12 +141,11 @@ pub struct ConfirmOptions {
 }
 
 #[tauri::command(async)]
-pub fn confirm(app: AppHandle, opts: ConfirmOptions) -> bool {
+pub fn confirm(app: AppHandle, window: WebviewWindow, opts: ConfirmOptions) -> bool {
     use tauri_plugin_dialog::{DialogExt, MessageDialogButtons};
 
-    // Otomasyon: diyalog göstermeden onayla (yalnızca test ortamında).
-    if std::env::var("YAZNOT_TEST_CONFIRM").as_deref() == Ok("1") {
-        return true;
+    if require_main(&window).is_err() {
+        return false;
     }
 
     let title = if opts.title.is_empty() {

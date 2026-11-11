@@ -56,10 +56,20 @@ Out of scope:
 
 - Tauri runs the interface without Node.js integration; native capabilities are
   exposed through a fixed command list.
+- Every native command is accepted only from the `main` window. The OAuth and
+  PDF helper windows have no Tauri capability and are rejected by the command
+  layer.
 - The desktop WebView applies a Content Security Policy that limits scripts,
-  Workers and network destinations.
+  Workers and network destinations. The PDF print window additionally gets a
+  restrictive CSP and its HTML is stripped of script tags.
 - Native commands validate file keys and names before accessing the filesystem,
-  and only open http(s) URLs externally.
-- Google sign-in runs in a dedicated in-app window and captures the custom
-  `yaznot://auth` redirect locally.
+  and only open http(s) URLs externally. Path-based backup import accepts only files with the YazNot naming
+  pattern inside Downloads, Desktop or the app's backup folder; the file picker
+  path is chosen by the user.
+- Google sign-in runs in a dedicated in-app window with its own WebView2 data
+  directory. It accepts the HTTPS return URL and the `yaznot://auth` redirect
+  locally; tokens are never sent to a third-party server.
+- The PWA responses set a Content Security Policy, `X-Content-Type-Options`,
+  `Referrer-Policy`, `Permissions-Policy` and `X-Frame-Options`.
+- Release builds contain no test-only confirmation or file-dialog bypasses.
 - The app has no telemetry or third-party analytics.

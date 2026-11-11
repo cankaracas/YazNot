@@ -2,6 +2,6 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "main-capability",
   "description": "YazNot ana penceresi",
-  "windows": ["main", "auth-*", "print-*"],
+  "windows": ["main"],
   "permissions": ["core:default"]
 }

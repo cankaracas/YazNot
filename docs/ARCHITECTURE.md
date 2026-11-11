@@ -53,6 +53,10 @@ fallbacks (file input, download links, print dialog).
 Native commands validate paths and keys before touching the filesystem. Keys
 must match `[A-Za-z0-9_-]{1,64}`; file names are sanitised.
 
+All commands are additionally restricted to the `main` window. OAuth and PDF
+helper windows can load remote or generated HTML, so they are not allowed to
+call native commands.
+
 ## Data model
 
 All notes are kept in one JSON document under the `sections` key:

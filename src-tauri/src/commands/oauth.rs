@@ -2,7 +2,7 @@ use percent_encoding::percent_decode_str;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
+use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindow, WebviewWindowBuilder};
 use tokio::sync::oneshot;
 
 use crate::results::OAuthResult;
@@ -37,7 +37,18 @@ fn oauth_error(raw: &str) -> Option<String> {
 /// `yaznot://auth` adresindeki token'ları yakalar. Tarayıcı açılmaz; oturum anahtarı
 /// ağ üzerinden değil, doğrudan bu pencereden alınır.
 #[tauri::command]
-pub async fn google_sign_in(app: AppHandle, url: String) -> OAuthResult {
+pub async fn google_sign_in(
+    app: AppHandle,
+    window: WebviewWindow,
+    url: String,
+) -> OAuthResult {
+    if let Err(message) = crate::commands::require_main(&window) {
+        return OAuthResult {
+            ok: false,
+            error: Some(message),
+            ..Default::default()
+        };
+    }
     if !url.starts_with("https://") {
         return OAuthResult {
             ok: false,

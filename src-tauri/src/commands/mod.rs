@@ -6,8 +6,22 @@ pub mod oauth;
 pub mod pdf;
 
 use std::path::PathBuf;
-use tauri::AppHandle;
+use tauri::{AppHandle, WebviewWindow};
 use tauri_plugin_dialog::DialogExt;
+
+/// Uygulama komutları yalnızca ana arayüzden çağrılabilir.
+///
+/// Google/PDF gibi yardımcı pencereler dış (remote) sayfalar yükleyebildiği
+/// için, bu pencerelerden dosya okuma/yazma veya onay atlama girişimlerini
+/// kabul etmiyoruz. Ayrıca capabilities dosyasında da bu pencerelere izin
+/// verilmiyor.
+pub fn require_main(window: &WebviewWindow) -> Result<(), String> {
+    if window.label() == "main" {
+        Ok(())
+    } else {
+        Err("Bu işlem yalnızca ana pencereden kullanılabilir.".into())
+    }
+}
 
 pub fn save_dialog(
     app: &AppHandle,
@@ -16,12 +30,6 @@ pub fn save_dialog(
     filter_name: &str,
     extensions: &[&str],
 ) -> Option<PathBuf> {
-    // Otomasyon: diyalog yerine sabit klasöre yaz (yalnızca test ortamında).
-    if let Ok(dir) = std::env::var("YAZNOT_TEST_DIR") {
-        let dir = PathBuf::from(dir);
-        let _ = std::fs::create_dir_all(&dir);
-        return Some(dir.join(file_name));
-    }
     app.dialog()
         .file()
         .set_title(title)
@@ -32,10 +40,6 @@ pub fn save_dialog(
 }
 
 pub fn open_dialog(app: &AppHandle, title: &str, filters: &[(&str, &[&str])]) -> Option<PathBuf> {
-    // Otomasyon: diyalog yerine sabit dosyayı döndür (yalnızca test ortamında).
-    if let Ok(path) = std::env::var("YAZNOT_TEST_OPEN") {
-        return Some(PathBuf::from(path));
-    }
     let mut dialog = app.dialog().file().set_title(title);
     for (name, extensions) in filters {
         dialog = dialog.add_filter(*name, extensions);

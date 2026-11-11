@@ -1,7 +1,7 @@
 use base64::{engine::general_purpose::STANDARD, Engine as _};
-use tauri::AppHandle;
+use tauri::{AppHandle, WebviewWindow};
 
-use crate::commands::open_dialog;
+use crate::commands::{open_dialog, require_main};
 use crate::results::PickImageResult;
 
 const MAX_IMAGE_BYTES: u64 = 30 * 1024 * 1024;
@@ -11,7 +11,14 @@ const IMAGE_EXTENSIONS: &[&str] = &[
 ];
 
 #[tauri::command(async)]
-pub fn pick_image(app: AppHandle) -> PickImageResult {
+pub fn pick_image(app: AppHandle, window: WebviewWindow) -> PickImageResult {
+    if let Err(err) = require_main(&window) {
+        return PickImageResult {
+            ok: false,
+            error: Some(err),
+            ..Default::default()
+        };
+    }
     let Some(path) = open_dialog(
         &app,
         "Resim Seç",
