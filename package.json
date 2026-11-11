@@ -1,0 +1,44 @@
+{
+  "name": "yaznot",
+  "productName": "YazNot",
+  "version": "1.0.0",
+  "description": "Cloud-synced note-taking app for Windows and the web, with on-device speech-to-text.",
+  "author": "YazNot contributors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "notes",
+    "tauri",
+    "rust",
+    "pwa",
+    "speech-to-text",
+    "supabase"
+  ],
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "predev": "npm run setup",
+    "dev": "tauri dev",
+    "prebuild": "npm run setup",
+    "build": "tauri build",
+    "prebuild:win": "npm run setup",
+    "build:win": "tauri build",
+    "prebuild:vercel": "npm run setup",
+    "build:vercel": "node scripts/build-vercel.mjs",
+    "web": "node scripts/build-web.mjs",
+    "preweb": "npm run setup",
+    "guide": "node scripts/build-guide.mjs",
+    "pretest": "npm run setup",
+    "test": "node scripts/build-vercel.mjs && node tests/smoke.test.js && node tests/accounts.test.js && node tests/auth-email.test.js && node tests/web.test.js && node tests/guide.test.js && node tests/vercel.test.js && node tests/stt.test.js",
+    "pretest:app": "npm run setup",
+    "test:app": "node tests/stt-model.test.js",
+    "tauri": "tauri",
+    "icons": "tauri icon src-tauri/icons/icon-source.png"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.9.0",
+    "jsdom": "^26.1.0",
+    "onnxruntime-web": "1.22.0"
+  }
+}

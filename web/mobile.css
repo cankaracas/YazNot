@@ -1,0 +1,335 @@
+/* ============================================================
+   MOBİL / PWA EK STİLLERİ
+   Bu dosya elle düzenlenir. `npm run web` çalıştırıldığında
+   ui/style.css + bu dosya = dist/pwa/style.css olarak üretilir.
+   ============================================================ */
+
+.sidebar-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(4, 4, 6, 0.58);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  z-index: 99; opacity: 0;
+  transition: opacity 0.24s var(--ease);
+}
+body.sidebar-mobile-open .sidebar-backdrop { display: block; opacity: 1; }
+
+/* Dokunmatik cihazlarda hover yok: silme düğmeleri her zaman görünür. */
+@media (hover: none) {
+  .item-delete, .book-card-delete { opacity: 1; }
+  .item-delete { width: 34px; height: 34px; font-size: 20px; }
+  .book-card-delete { width: 32px; height: 32px; font-size: 20px; }
+  .nav-btn:hover, .item:hover, .book-card:hover { background: transparent; }
+  .item:hover { background: transparent; border-color: transparent; }
+  .item:hover + .item { border-top-color: var(--line); }
+  .book-card:hover { transform: none; box-shadow: none; }
+  .item-delete:hover, .book-card-delete:hover { background: transparent; color: var(--muted-2); }
+}
+
+@media (max-width: 768px), (max-height: 520px) and (orientation: landscape) {
+  body { font-size: 14.5px; }
+  .app { height: 100vh; height: 100dvh; }
+
+  /* ---------- Ana yerleşim: çentiğin hemen altından başlar ---------- */
+  .main-content {
+    padding: 0 calc(16px + var(--safe-right)) calc(30px + var(--safe-bottom)) calc(16px + var(--safe-left));
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    scroll-padding-top: calc(52px + var(--safe-top));
+  }
+
+  .view-header {
+    flex-wrap: wrap; align-items: center;
+    padding-top: calc(12px + var(--safe-top));
+    padding-bottom: 11px; margin-bottom: 14px; gap: 9px;
+  }
+  /* Soldaki menü düğmesi başlıkla aynı hizada; başlık onun sağından başlar. */
+  .view-header .header-left { padding-left: 46px; gap: 9px; min-width: 0; flex: 1; }
+  .view-title { font-size: 21px; }
+  .view-sub { font-size: 10.5px; }
+  .section-icon-display { font-size: 21px; }
+  .header-actions { gap: 5px; }
+  .btn-new { padding: 8px 12px; font-size: 12px; }
+  .btn-more { width: 34px; height: 34px; }
+
+  /* ---------- Menü düğmesi ---------- */
+  .sidebar-reveal {
+    display: flex !important;
+    top: calc(10px + var(--safe-top)); left: calc(12px + var(--safe-left));
+    width: 38px; height: 38px;
+    background: color-mix(in srgb, var(--panel) 90%, transparent);
+    border: 1px solid var(--line-strong);
+    z-index: 50;
+  }
+  /* Editörde geri düğmesi var; menü düğmesi kalabalık yapmasın. */
+  body.editing .sidebar-reveal { display: none !important; }
+
+  /* ---------- Çekmece (sidebar) ---------- */
+  .sidebar {
+    position: fixed; top: 0; bottom: 0; left: 0;
+    width: 84vw; max-width: 320px; z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.26s var(--ease);
+    display: flex !important;
+    padding: calc(14px + var(--safe-top)) 12px calc(12px + var(--safe-bottom)) calc(12px + var(--safe-left));
+    box-shadow: 12px 0 40px rgba(0, 0, 0, 0.28);
+  }
+  body.sidebar-mobile-open .sidebar { transform: translateX(0); }
+  body.sidebar-mobile-open .sidebar-reveal { display: none !important; }
+  body.sidebar-dragging .sidebar { transition: none; }
+  body.sidebar-dragging .sidebar-backdrop { display: block; transition: none; }
+  .sidebar-head { padding-bottom: 10px; }
+  .brand-name { font-size: 17px; }
+  .sidebar-collapse-btn { display: none; }
+  .sidebar-account-top { min-height: 44px; }
+  .sidebar-tool { width: 40px; height: 40px; }
+  .nav-btn { min-height: 42px; }
+
+  /* ---------- Listeler ---------- */
+  .search-wrap { margin-bottom: 13px; max-width: 100%; }
+  .search-input { min-height: 42px; font-size: 16px; border-radius: 10px; }
+  .item { padding: 12px; }
+  .item-title { font-size: 14.5px; }
+  .item-preview { font-size: 11.5px; }
+  .grid-container { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 11px; }
+  .book-card { min-height: 112px; padding: 14px 32px 13px 14px; }
+  .book-card.selectable { padding-left: 42px; }
+  .book-card-title { font-size: 14px; }
+  .empty-state { padding: 48px 16px; }
+
+  /* ---------- Editör ---------- */
+  /* Başlık + araç çubuğu tek yapışkan şeritte: kaydırırken ikisi de görünür kalır. */
+  .editor-sticky { z-index: 12; }
+  .editor-header {
+    /* Tam genişlik: kaydırırken kenarlardan içerik görünmesin. */
+    margin: 0 calc(-16px - var(--safe-right)) 0 calc(-16px - var(--safe-left));
+    padding: calc(8px + var(--safe-top)) calc(16px + var(--safe-right)) 8px calc(16px + var(--safe-left));
+    gap: 6px;
+  }
+  .editor-title { font-size: 16px; max-width: 46vw; }
+  .editor-meta { gap: 5px; font-size: 10px; margin-top: 0; }
+  .editor-meta #editor-read-time, .editor-meta .meta-sep { display: none; }
+  .editor-actions { gap: 0; }
+  .editor-actions .icon-btn { width: 34px; height: 34px; }
+  .editor-body { max-width: 100%; }
+  /* Kaydırırken başlık küçülür: yazmaya daha çok alan kalır. */
+  body.editor-compact .editor-meta,
+  body.editor-compact .editor-actions { display: none; }
+  body.editor-compact .editor-header { padding-bottom: 7px; margin-bottom: 0; }
+  .editor-toolbar {
+    flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden;
+    padding: 6px 0 8px; margin-bottom: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Sağ kenarda kaydırılabilir olduğunu belli eden yumuşak geçiş */
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent 100%);
+  }
+  .editor-toolbar::-webkit-scrollbar { display: none; }
+  .toolbar-group { flex: 0 0 auto; }
+  .toolbar-sep { flex: 0 0 1px; margin: 0 4px; }
+  .toolbar-btn { min-width: 38px; height: 38px; padding: 0 9px; font-size: 14px; flex: 0 0 auto; }
+  .toolbar-btn .icon { width: 17px; height: 17px; }
+  .editor-content {
+    font-size: var(--editor-font-size, 17px); line-height: var(--editor-line-height, 1.85);
+    min-height: 50vh; padding: 16px 0 calc(35vh + var(--safe-bottom)) 0; /* klavye açıkken imleç görünür kalsın */
+  }
+  body.focus-mode .main-content { padding-left: calc(18px + var(--safe-left)); padding-right: calc(18px + var(--safe-right)); }
+
+  /* ---------- Okuyucu: çentik altında, kaydırırken gizlenen ince bar ---------- */
+  .reader { display: flex; left: 0; }
+  /* Bar gizlense de durum çubuğu alanı temiz kalsın. */
+  .reader::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: var(--safe-top); background: var(--bg);
+    z-index: 55; pointer-events: none;
+  }
+  .reader-body { height: 100%; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
+  .reader-topbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 56;
+    padding: calc(8px + var(--safe-top)) calc(12px + var(--safe-right)) 8px calc(12px + var(--safe-left));
+    background: color-mix(in srgb, var(--bg-deep) 94%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  }
+  .reader.reader-bar-hidden .reader-topbar {
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .reader-book-title { font-size: 12.5px; max-width: 62vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .reader-progress { font-size: 11px; }
+  .reader-progress-bar { top: var(--safe-top); }
+  .reader-content {
+    max-width: 100%;
+    padding: calc(58px + var(--safe-top)) calc(18px + var(--safe-right)) calc(72px + var(--safe-bottom)) calc(18px + var(--safe-left));
+  }
+  .reader-chapter { margin-bottom: 48px; }
+  .reader-chapter:not(:last-child) { padding-bottom: 34px; }
+  .reader-chapter-title { font-size: 21px; margin-bottom: 18px; }
+  .reader-chapter-content { font-size: 16px; line-height: 1.85; }
+
+  /* ---------- Modaller: alt sayfa (bottom sheet) ---------- */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal,
+  .modal-section,
+  .modal-settings,
+  .modal-stats,
+  .modal-trash,
+  .modal-move,
+  .modal-share,
+  .modal-shares,
+  .modal-import,
+  .modal-restore,
+  .modal-stt {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 18px 18px 0 0;
+    max-height: 88vh;
+    max-height: 88dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 18px 16px calc(16px + var(--safe-bottom));
+    border-left: 0; border-right: 0; border-bottom: 0;
+    animation: sheetUp 0.22s var(--ease);
+  }
+  @keyframes sheetUp {
+    from { transform: translateY(16px); opacity: 0.5; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-actions {
+    position: sticky; bottom: 0;
+    background: inherit;
+    padding: 10px 0 2px;
+    margin-top: 14px;
+  }
+  .modal-actions .btn-primary,
+  .modal-actions .btn-secondary { flex: 1; min-height: 44px; }
+  .modal-title { font-size: 16px; }
+  .shares-list, .trash-list { max-height: 48vh; max-height: 48dvh; }
+  .import-preview { max-height: 34vh; max-height: 34dvh; }
+  .auth-overlay { padding: calc(18px + var(--safe-top)) 14px calc(18px + var(--safe-bottom)); }
+  .auth-cancel { width: 38px; height: 38px; font-size: 15px; }
+
+  /* ---------- Hesap değiştirme menüsü ---------- */
+  .account-menu { max-height: 55vh; max-height: 55dvh; }
+  .account-row { min-height: 46px; padding: 9px 8px; }
+  .account-menu-item { min-height: 44px; }
+
+  /* ---------- Palet / bildirim / toplu çubuk ---------- */
+  .palette-overlay { padding: calc(10px + var(--safe-top)) 12px 12px; }
+  .palette { max-height: 84vh; max-height: 84dvh; }
+  .palette-results { max-height: 60vh; max-height: 60dvh; }
+  .palette-input { font-size: 16px; }
+  .toast-container { bottom: calc(16px + var(--safe-bottom)); width: calc(100% - 24px); }
+  .toast { width: 100%; justify-content: space-between; }
+  .bulk-bar { bottom: calc(12px + var(--safe-bottom)); width: calc(100% - 20px); padding: 8px; gap: 6px; }
+  .bulk-count { width: 100%; text-align: center; }
+  .bulk-btn { flex: 1; text-align: center; min-height: 40px; }
+  body.bulk-active .toast-container { bottom: calc(104px + var(--safe-bottom)); }
+  body.bulk-active .guide-fab { display: none; }
+
+  /* ---------- Dokunma hedefleri ---------- */
+  .btn-primary, .btn-secondary, .btn-back,
+  .editor-action-btn, .sidebar-footer-btn, .sidebar-footer-icon,
+  .trash-restore, .shares-tab, .structure-option, .type-option {
+    min-height: 42px;
+  }
+  .btn-back { min-height: 38px; }
+  .menu-item { min-height: 42px; font-size: 13.5px; }
+
+  /* iOS'ta 16px altındaki alanlara odaklanınca sayfa zoom yapar. */
+  .search-input, .modal-input, .modal-textarea, .auth-input,
+  .palette-input, .modal-select, .stt-result { font-size: 16px; }
+  #auth-code { font-size: 20px; letter-spacing: 4px; }
+
+  /* ---------- Kullanım kılavuzu ---------- */
+  .guide-overlay { align-items: flex-end; padding: 0; }
+  .guide-sheet {
+    width: 100%; height: 92dvh; max-height: 92dvh;
+    border-radius: 18px 18px 0 0;
+    border-left: 0; border-right: 0; border-bottom: 0;
+    animation: sheetUp 0.24s var(--ease);
+  }
+  .guide-head { padding: calc(12px + var(--safe-top)) 14px 12px; }
+  .guide-title { font-size: 15px; }
+  .guide-sub { font-size: 10.5px; }
+  .guide-welcome { margin: 10px 14px 0; font-size: 11.5px; }
+  .guide-layout { flex-direction: column; min-height: 0; }
+  .guide-toc {
+    width: 100%; flex-shrink: 0; display: flex; gap: 5px;
+    overflow-x: auto; overflow-y: hidden;
+    padding: 9px 14px; border-right: none;
+    border-bottom: 1px solid var(--line);
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .guide-toc::-webkit-scrollbar { display: none; }
+  .guide-toc-btn {
+    flex: 0 0 auto; width: auto; margin-bottom: 0;
+    padding: 6px 10px; border: 1px solid var(--line);
+    border-radius: 999px; font-size: 11px; white-space: nowrap;
+  }
+  .guide-toc-btn.active { border-color: var(--accent-line); }
+  .guide-body { padding: 4px 16px calc(24px + var(--safe-bottom)); scroll-behavior: auto; }
+  .guide-section h2 { font-size: 17px; }
+  .guide-section p, .guide-section li { font-size: 13.5px; line-height: 1.72; }
+  .guide-section table { display: block; overflow-x: auto; font-size: 12px; }
+  .guide-foot {
+    padding: 10px 14px calc(10px + var(--safe-bottom));
+    gap: 8px;
+  }
+  .guide-foot-note { display: none; }
+  .guide-foot-actions { width: 100%; }
+  .guide-foot-actions .btn-primary, .guide-foot-actions .btn-secondary { flex: 1; min-height: 42px; }
+  .guide-fab {
+    right: calc(14px + var(--safe-right));
+    bottom: calc(14px + var(--safe-bottom));
+    width: 36px; height: 36px;
+    opacity: 0.55;
+  }
+
+  .stt-model-pill { display: none; }
+  .stt-record-zone { padding: 11px; gap: 10px; }
+  .stt-record-btn { padding: 12px 14px; font-size: 13.5px; }
+  .stt-record-side { width: 88px; }
+  .stt-timer { font-size: 17px; }
+  .stt-toolbar-row { flex-wrap: wrap; }
+  .stt-lang { width: 100%; }
+  .stt-lang-btn { flex: 1; padding: 8px 4px; }
+  .stt-actions .btn-primary, .stt-actions .btn-secondary { flex: 1; padding: 10px 12px; }
+  .stt-result { min-height: 100px; }
+}
+
+/* Küçük telefonlar: yeni öğe düğmesi yalnızca ikon. */
+@media (max-width: 480px), (max-height: 520px) and (orientation: landscape) {
+  .btn-new { width: 38px; min-height: 36px; padding: 0; }
+  .btn-new span { display: none; }
+  .editor-title { max-width: 42vw; }
+}
+
+/* Yatay mod: dikey alan kısıtlı. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .view-header { padding-top: calc(8px + var(--safe-top)); }
+  .sidebar-reveal { top: calc(6px + var(--safe-top)); }
+  .guide-sheet { height: 94dvh; }
+  .editor-content { padding-bottom: 26vh; }
+}
+
+/* Bir pencere açıkken bildirimler alt sayfadaki düğmeleri kapatmasın. */
+@media (max-width: 768px), (max-height: 520px) and (orientation: landscape) {
+  body:has(.modal-overlay:not(.hidden)) .toast-container {
+    top: calc(12px + var(--safe-top));
+    bottom: auto;
+  }
+}
+
+/* Grup görünümünde geri düğmesi var; menü düğmesi yer kaplamasın. */
+@media (max-width: 768px), (max-height: 520px) and (orientation: landscape) {
+  body.view-group .sidebar-reveal { display: none !important; }
+  body.view-group .view-header .header-left { padding-left: 0; }
+}
+
+/* Dokunmatik + güvenli alan */
+.nav-btn, .group-card, .book-card {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
