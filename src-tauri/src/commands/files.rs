@@ -1,0 +1,147 @@
+use tauri::AppHandle;
+
+use crate::commands::save_dialog;
+use crate::paths;
+use crate::results::{SaveResult, SimpleResult};
+
+const GUIDE_PDF: &[u8] = include_bytes!("../../../ui/yaznot-kullanim-kilavuzu.pdf");
+
+#[tauri::command(async)]
+pub fn save_text_file(app: AppHandle, title: String, text: String, ext: String) -> SaveResult {
+    let ext = match ext.as_str() {
+        "md" => "md",
+        "html" => "html",
+        _ => "txt",
+    };
+    let filter_name = match ext {
+        "md" => "Markdown",
+        "html" => "HTML",
+        _ => "Metin Dosyası",
+    };
+    let dialog_title = match ext {
+        "md" => "Markdown Olarak Dışa Aktar",
+        "html" => "HTML Olarak Dışa Aktar",
+        _ => "TXT Olarak Dışa Aktar",
+    };
+    let file_name = format!("{}.{ext}", paths::safe_file_name(&title, "belge"));
+
+    let Some(path) = save_dialog(&app, dialog_title, &file_name, filter_name, &[ext]) else {
+        return SaveResult::canceled();
+    };
+
+    // BOM: Windows Not Defteri Türkçe karakterleri doğru göstersin.
+    match std::fs::write(&path, format!("\u{FEFF}{text}")) {
+        Ok(()) => SaveResult::ok(&path),
+        Err(err) => SaveResult::error(err.to_string()),
+    }
+}
+
+/// Kılavuz PDF'i uygulamanın içinden kopyalanır; internet gerekmez.
+#[tauri::command(async)]
+pub fn save_guide_pdf(app: AppHandle) -> SaveResult {
+    let Some(path) = save_dialog(
+        &app,
+        "Kullanım Kılavuzunu Kaydet",
+        "YazNot-Kullanim-Kilavuzu.pdf",
+        "PDF",
+        &["pdf"],
+    ) else {
+        return SaveResult::canceled();
+    };
+    match std::fs::write(&path, GUIDE_PDF) {
+        Ok(()) => SaveResult::ok(&path),
+        Err(err) => SaveResult::error(err.to_string()),
+    }
+}
+
+#[tauri::command(async)]
+pub fn open_external(url: String) -> SimpleResult {
+    let lower = url.to_lowercase();
+    if !(lower.starts_with("http://") || lower.starts_with("https://")) {
+        return SimpleResult {
+            ok: false,
+            error: Some("Yalnızca http/https bağlantıları açılabilir".into()),
+        };
+    }
+    match open::that_detached(&url) {
+        Ok(()) => SimpleResult {
+            ok: true,
+            error: None,
+        },
+        Err(err) => SimpleResult {
+            ok: false,
+            error: Some(err.to_string()),
+        },
+    }
+}
+
+#[tauri::command(async)]
+pub fn open_backups_folder(app: AppHandle) -> SimpleResult {
+    let dirs = match paths::ensure(&app) {
+        Ok(dirs) => dirs,
+        Err(err) => {
+            return SimpleResult {
+                ok: false,
+                error: Some(err),
+            }
+        }
+    };
+    match open::that_detached(&dirs.backups) {
+        Ok(()) => SimpleResult {
+            ok: true,
+            error: None,
+        },
+        Err(err) => SimpleResult {
+            ok: false,
+            error: Some(err.to_string()),
+        },
+    }
+}
+
+#[derive(serde::Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct ConfirmOptions {
+    #[serde(default)]
+    pub title: String,
+    #[serde(default)]
+    pub message: String,
+    #[serde(default)]
+    pub detail: String,
+    #[serde(default)]
+    pub confirm_label: String,
+}
+
+#[tauri::command(async)]
+pub fn confirm(app: AppHandle, opts: ConfirmOptions) -> bool {
+    use tauri_plugin_dialog::{DialogExt, MessageDialogButtons};
+
+    // Otomasyon: diyalog göstermeden onayla (yalnızca test ortamında).
+    if std::env::var("YAZNOT_TEST_CONFIRM").as_deref() == Ok("1") {
+        return true;
+    }
+
+    let title = if opts.title.is_empty() {
+        "Onay"
+    } else {
+        &opts.title
+    };
+    let confirm_label = if opts.confirm_label.is_empty() {
+        "Onayla"
+    } else {
+        &opts.confirm_label
+    };
+    let mut message = opts.message;
+    if !opts.detail.is_empty() {
+        message.push_str("\n\n");
+        message.push_str(&opts.detail);
+    }
+
+    app.dialog()
+        .message(message)
+        .title(title)
+        .buttons(MessageDialogButtons::OkCancelCustom(
+            confirm_label.to_string(),
+            "İptal".to_string(),
+        ))
+        .blocking_show()
+}
