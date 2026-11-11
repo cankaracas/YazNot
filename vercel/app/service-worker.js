@@ -1,4 +1,4 @@
-var CACHE_NAME = 'yaznot-9a8ee690';
+var CACHE_NAME = 'yaznot-a43d42b4';
 var ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,7 @@ var ASSETS = [
   './guide-content.js',
   './guide-content.en.js',
   './yaznot-kullanim-kilavuzu.pdf',
+  './yaznot-user-guide.pdf',
   './supabase.min.js',
   './pdf.min.js',
   './pdf.worker.min.js',

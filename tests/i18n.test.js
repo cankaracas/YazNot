@@ -49,6 +49,8 @@ check('placeholder çevrilir',
   window.document.getElementById('search').getAttribute('placeholder') === 'Search...');
 check('title özniteliği çevrilir',
   window.document.getElementById('new').getAttribute('title') === 'New item');
+check('kaydetme durumu çevrilir', window.YazNotI18n.t('Kaydediliyor...') === 'Saving...');
+check('yerel kayıt durumu çevrilir', window.YazNotI18n.t('Yerel kayıt') === 'Saved on device');
 check('t() bilinen metni çevirir', window.YazNotI18n.t('Bölüm') === 'Section');
 check('locale en-US olur', window.YazNotI18n.locale() === 'en-US');
 check('bilinmeyen metin aynı kalır', window.YazNotI18n.t('Özel notum') === 'Özel notum');

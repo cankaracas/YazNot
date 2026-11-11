@@ -57,6 +57,10 @@
     "Bu notu paylaş": "Share this note",
     "Başlık": "Title",
     "Kaydedildi": "Saved",
+    "Kaydediliyor...": "Saving...",
+    "Kaydediliyor": "Saving...",
+    "Yerel kayıt": "Saved on device",
+    "Senkronize ediliyor": "Syncing",
     "Kitap": "Reader",
     "Kapat": "Close",
     "İptal": "Cancel",
@@ -360,7 +364,8 @@
     "Kılavuz bir kez açıldı; dilediğin zaman sağ alttaki": "The guide opened once; you can reopen it any time from the",
     "düğmesinden yeniden okuyabilirsin.": "button at the bottom right.",
     "Kılavuz çevrimdışı da okunur.": "The guide also works offline.",
-    "PDF olarak kaydet": "Save PDF (Turkish)",
+    "PDF olarak kaydet": "Save PDF",
+    "Kaydedildi ✓": "Saved ✓",
     "Anladım": "Got it",
     "Kılavuz hazırlanıyor": "Guide is being prepared",
     "Bu sürümde kılavuz içeriği bulunamadı. PDF dosyasını indirerek okuyabilirsin.": "Guide content was not found in this version. You can download the PDF.",
@@ -584,6 +589,7 @@
       .replace(/günlük, son 7 kopya tutulur\./g, 'daily, the last 7 copies are kept.')
       .replace(/Son düzenleme: /g, 'Last edited: ')
       .replace(/(\d+)\s+bekliyor…/g, '$1 pending…')
+      .replace(/^Çevrimdışı \((\d+)\)$/g, 'Offline ($1)')
       .replace(/(\d+)\s+min okuma/g, '$1 min read')
       .replace(/(\d[\d.,]*)\s+not seçildi/g, function (_, n) { return n + ' selected'; })
       .replace(/(\d[\d.,]*)\s+not\b/g, function (_, n) { return n + ' ' + plural(n, 'note', 'notes'); })

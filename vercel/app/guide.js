@@ -138,7 +138,7 @@
     }
     var original = downloadLabel || (downloadBtn ? downloadBtn.innerHTML : '');
     if (downloadBtn) { downloadBtn.disabled = true; downloadBtn.textContent = 'Hazırlanıyor…'; }
-    Promise.resolve(window.api.saveGuidePdf()).then(function (res) {
+    Promise.resolve(window.api.saveGuidePdf(en ? 'en' : 'tr')).then(function (res) {
       if (downloadBtn) {
         if (res && res.ok) {
           downloadBtn.textContent = 'Kaydedildi ✓';

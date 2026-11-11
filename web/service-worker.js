@@ -13,6 +13,7 @@ var ASSETS = [
   './guide-content.js',
   './guide-content.en.js',
   './yaznot-kullanim-kilavuzu.pdf',
+  './yaznot-user-guide.pdf',
   './supabase.min.js',
   './pdf.min.js',
   './pdf.worker.min.js',

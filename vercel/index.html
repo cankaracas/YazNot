@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YazNot — yaz, konuş, her yerde devam et</title>
-<meta name="description" content="Sade bir not defteri. Windows'ta çevrimdışı çalışır, telefonda uygulama gibi açılır; aynı hesapla notların her yerde aynı kalır.">
-<meta name="theme-color" content="#f3eee5">
+<title>YazNot — yaz, konuş, gerisi kalsın</title>
+<meta name="description" content="YazNot, aklındaki cümleyi kaybetmemek için tasarlanmış bir not defteri. Windows'ta çevrimdışı, telefonda uygulama gibi; aynı hesapla her cihazda aynı.">
+<meta name="theme-color" content="#0b0b0c">
 <meta name="format-detection" content="telephone=no">
 <meta property="og:type" content="website">
 <meta property="og:title" content="YazNot">
-<meta property="og:description" content="Sade bir not defteri. Windows'ta çevrimdışı, telefonda uygulama gibi.">
+<meta property="og:description" content="Yaz. Konuş. Gerisi kalsın. Windows ve web için sakin bir not defteri.">
 <meta property="og:image" content="app-shot.png">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="favicon-32.png">
@@ -50,14 +50,14 @@
 
 <header class="topbar">
   <a class="brand" href="#main" aria-label="YazNot">
-    <img src="logo-mark.png" alt="" width="26" height="26">
+    <img src="logo-mark.png" alt="" width="28" height="28">
     <span class="brand-name">YazNot</span>
     <span class="brand-version">1.0</span>
   </a>
   <nav class="topnav" aria-label="Sayfa" data-i18n-aria="nav.aria">
     <a href="#film" data-i18n="nav.film">Tanıtım</a>
-    <a href="#how" data-i18n="nav.how">Nasıl</a>
-    <a href="#desktop" data-i18n="nav.desktop">Windows</a>
+    <a href="#difference" data-i18n="nav.difference">Neden</a>
+    <a href="#devices" data-i18n="nav.devices">Cihazlar</a>
     <a href="#guide" data-i18n="nav.guide">Kılavuz</a>
     <a href="https://github.com/cankaracas/YazNot" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
   </nav>
@@ -66,7 +66,7 @@
       <button type="button" data-set-lang="tr" aria-pressed="true">TR</button>
       <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
     </div>
-    <a class="top-cta" href="app/" data-i18n="nav.open">Uygulamayı aç</a>
+    <a class="top-cta" href="app/" data-i18n="nav.open">YazNot'u aç</a>
   </div>
 </header>
 
@@ -76,11 +76,11 @@
       <div class="hero-copy">
         <p class="kicker" data-i18n="hero.kicker">YazNot 1.0 · Windows + web</p>
         <h1 data-i18n-html="hero.title">Yaz. Konuş.<br><em>Gerisi kalsın.</em></h1>
-        <p class="lead" data-i18n="hero.lead">Sade bir not defteri. Windows'ta çevrimdışı çalışır, telefonda uygulama gibi açılır; aynı hesapla notların her yerde aynı kalır.</p>
+        <p class="lead" data-i18n="hero.lead">Aklındaki cümleyi kaybetmemek için tasarlandı. Windows'ta çevrimdışı çalışır, telefonda ana ekranına eklenir; aynı hesapla her cihazda aynı defter.</p>
         <div class="actions">
-          <a class="btn btn-ink" href="app/">
+          <a class="btn btn-primary" href="app/">
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 19h3"/></svg>
-            <span><b data-i18n="hero.open">Web uygulamasını aç</b><small data-i18n="hero.openSub">Telefon + tarayıcı</small></span>
+            <span><b data-i18n="hero.open">YazNot'u aç</b><small data-i18n="hero.openSub">Telefonda uygulama · tarayıcıda</small></span>
           </a>
           <a class="btn btn-line" href="YazNot-Setup-1.0.0.exe" download>
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4 20h16"/></svg>
@@ -101,22 +101,22 @@
         <figcaption data-i18n="hero.caption">Masaüstü · aynı defter, iki ekran</figcaption>
       </figure>
     </div>
-    <div class="wrap strip" aria-label="Özellikler" data-i18n-aria="strip.aria">
-      <span data-i18n="strip.sections">Bölümler ve gruplar</span>
-      <span data-i18n="strip.speech">Cihazda sesten metne</span>
-      <span data-i18n="strip.export">PDF · TXT · Markdown</span>
-      <span data-i18n="strip.offline">Çevrimdışı</span>
+    <div class="wrap proof" aria-label="Özellikler" data-i18n-aria="proof.aria">
+      <span data-i18n="proof.local">Cihazda saklanır</span>
+      <span data-i18n="proof.speech">Ses cihazdan çıkmaz</span>
+      <span data-i18n="proof.backup">Her gün yedek</span>
+      <span data-i18n="proof.export">PDF · TXT · Markdown</span>
     </div>
   </section>
 
-  <section class="band dark" id="film">
+  <section class="section film" id="film">
     <div class="wrap">
-      <div class="band-head">
+      <div class="section-head">
         <div>
-          <p class="kicker light" data-i18n="film.kicker">37 saniye</p>
+          <p class="kicker" data-i18n="film.kicker">37 saniye</p>
           <h2 data-i18n="film.title">Kısa bir bakış.</h2>
         </div>
-        <p class="band-lead" data-i18n="film.lead">Ne yaptığını gösteren sessiz bir tur.</p>
+        <p class="section-lead" data-i18n="film.lead">Ne yaptığını gösteren sessiz bir tur. Süs değil, ürün.</p>
       </div>
       <div class="film-frame">
         <video id="promo-video" controls playsinline preload="none" poster="tanitim-kapak.png" data-poster-tr="tanitim-kapak.png" data-poster-en="tanitim-en-kapak.png" width="1920" height="1080" data-i18n-aria="film.aria">
@@ -128,90 +128,79 @@
     </div>
   </section>
 
-  <section class="how" id="how">
+  <section class="section difference" id="difference">
     <div class="wrap">
       <div class="section-head">
-        <p class="kicker" data-i18n="how.kicker">Üç parça</p>
-        <h2 data-i18n="how.title">Üç şey yeter.</h2>
-        <p class="section-lead" data-i18n="how.lead">Yaz, konuş, sakla. Geri kalan ayrıntılar yolda kaybolmasın.</p>
-      </div>
-      <div class="how-grid">
-        <article>
-          <span class="index">01</span>
-          <h3 data-i18n="how.oneTitle">Yaz</h3>
-          <p data-i18n="how.oneBody">Bölümler, gruplar ve kitap gibi okuma. Düşünceni düzenli tut; arama ve odak modu gerisini halleder.</p>
-        </article>
-        <article>
-          <span class="index">02</span>
-          <h3 data-i18n="how.twoTitle">Konuş</h3>
-          <p data-i18n="how.twoBody">Türkçe ve İngilizce konuşmayı cihazında yazıya çevir. Kayıt sunucuya gitmez.</p>
-        </article>
-        <article>
-          <span class="index">03</span>
-          <h3 data-i18n="how.threeTitle">Sakla</h3>
-          <p data-i18n="how.threeBody">Aynı hesap, her cihaz. Günlük yedek, çevrimdışı çalışma ve PDF / TXT / Markdown çıkışı.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="desktop" id="desktop">
-    <div class="wrap split">
-      <div class="split-copy">
-        <p class="kicker" data-i18n="desktop.kicker">Windows</p>
-        <h2 data-i18n="desktop.title">Masaüstünde.</h2>
-        <p class="section-lead" data-i18n="desktop.lead">4,4 MB'lık tek kurulum. İnternet olmadan yaz, bağlantı gelince eşitle.</p>
-        <a class="btn btn-ink" href="YazNot-Setup-1.0.0.exe" download>
-          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4 20h16"/></svg>
-          <span><b data-i18n="desktop.download">YazNot'u indir</b><small data-i18n="desktop.downloadSub">Windows 10/11 · 64-bit</small></span>
-        </a>
-        <p class="fine" data-i18n="desktop.note">İlk açılışta Windows uyarırsa: Daha fazla bilgi → Yine de çalıştır.</p>
-      </div>
-
-      <aside class="receipt" aria-label="Windows kurulum bilgileri" data-i18n-aria="desktop.receiptAria">
-        <div class="receipt-top"><span>YAZNOT 1.0</span><span>WIN</span></div>
-        <p class="receipt-size" data-i18n-html="desktop.size">4,4<span>MB</span></p>
-        <dl>
-          <div><dt data-i18n="desktop.os">İşletim sistemi</dt><dd>Windows 10 / 11</dd></div>
-          <div><dt data-i18n="desktop.arch">Mimari</dt><dd>64-bit</dd></div>
-          <div><dt data-i18n="desktop.runtime">Çalışma ortamı</dt><dd>WebView2</dd></div>
-          <div><dt data-i18n="desktop.offlineLabel">Çevrimdışı</dt><dd data-i18n="desktop.offlineValue">Evet</dd></div>
-        </dl>
-        <a class="receipt-button" href="YazNot-Setup-1.0.0.exe" download data-i18n="desktop.receiptCta">Kurulumu indir</a>
-        <p class="receipt-file">YazNot-Setup-1.0.0.exe</p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="band dark phone-band" id="phone">
-    <div class="wrap split reverse">
-      <div class="phone" aria-hidden="true">
-        <div class="phone-screen">
-          <div class="phone-head"><span class="phone-mark"></span><span>YazNot</span></div>
-          <div class="phone-rule long"></div>
-          <div class="phone-note"><i></i><span></span></div>
-          <div class="phone-note"><i></i><span></span></div>
-          <div class="phone-note"><i></i><span></span></div>
-          <div class="phone-rule"></div>
-          <div class="phone-note"><i></i><span></span></div>
+        <div>
+          <p class="kicker" data-i18n="difference.kicker">Neden farklı</p>
+          <h2 data-i18n="difference.title">Düşünmeyi bölmeyen bir defter.</h2>
         </div>
+        <p class="section-lead" data-i18n="difference.lead">YazNot'u daha çok özellik için değil, daha az şeyi kaçırmak için yaptık.</p>
       </div>
-      <div class="split-copy">
-        <p class="kicker light" data-i18n="phone.kicker">Telefon</p>
-        <h2 data-i18n="phone.title">Cebinde.</h2>
-        <p class="section-lead" data-i18n="phone.lead">Web uygulamasını aç, tarayıcı menüsünden ana ekrana ekle. Mağaza yok, ayrı indirme yok.</p>
-        <ol class="steps">
-          <li><span>01</span><b data-i18n="phone.step1">Web uygulamasını aç.</b></li>
-          <li><span>02</span><b data-i18n="phone.step2">Ana ekrana ekle.</b></li>
-        </ol>
-        <p class="fine light" data-i18n="phone.note">Android: Uygulamayı yükle · iPhone: Paylaş → Ana Ekrana Ekle</p>
-        <a class="text-link" href="app/" data-i18n="phone.cta">Uygulamayı aç →</a>
+      <div class="difference-grid">
+        <article>
+          <span class="num">01</span>
+          <h3 data-i18n="difference.oneTitle">Önce cihaz</h3>
+          <p data-i18n="difference.oneBody">Yazdığın an bu cihazda kaydedilir. İnternet yokken de devam edersin; bağlantı gelince değişiklikler sessizce eşitlenir.</p>
+        </article>
+        <article>
+          <span class="num">02</span>
+          <h3 data-i18n="difference.twoTitle">Ses dışarı çıkmaz</h3>
+          <p data-i18n="difference.twoBody">Türkçe ve İngilizce konuşma, cihazındaki modelle yazıya dönüşür. Kayıt bir sunucuya gönderilmez; model bir kez indirilir, sonra çevrimdışı çalışır.</p>
+        </article>
+        <article>
+          <span class="num">03</span>
+          <h3 data-i18n="difference.threeTitle">Sade, ama eksik değil</h3>
+          <p data-i18n="difference.threeBody">Odak modu, kitap gibi okuma, toplu taşıma, geri dönüşüm ve günlük yedek. Ayrıntılar menülerde; yazarken önünde değil.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="guide" id="guide">
-    <div class="wrap split">
+  <section class="section devices" id="devices">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker" data-i18n="devices.kicker">Her yerde</p>
+          <h2 data-i18n="devices.title">Aynı defter, iki hayat.</h2>
+        </div>
+        <p class="section-lead" data-i18n="devices.lead">Masaüstünde uzun yazılar, telefonda hızlı notlar. İkisi aynı hesapta buluşur.</p>
+      </div>
+
+      <div class="device-grid">
+        <article class="device desktop-card">
+          <p class="device-label" data-i18n="devices.desktopLabel">Windows</p>
+          <h3 data-i18n="devices.desktopTitle">Masaüstünde.</h3>
+          <p data-i18n="devices.desktopBody">4,4 MB'lık tek kurulum. İnternet olmadan yaz; bağlantı gelince eşitle.</p>
+          <ul class="detail-list">
+            <li data-i18n="devices.desktopOne">Odak modu ve geniş editör</li>
+            <li data-i18n="devices.desktopTwo">Yerel PDF dışa aktarma</li>
+            <li data-i18n="devices.desktopThree">Günlük otomatik yedek</li>
+          </ul>
+          <a class="btn btn-line" href="YazNot-Setup-1.0.0.exe" download>
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4 20h16"/></svg>
+            <span><b data-i18n="devices.desktopCta">Windows için indir</b><small data-i18n="devices.desktopCtaSub">4,4 MB · Windows 10/11</small></span>
+          </a>
+          <p class="fine" data-i18n="devices.desktopNote">İlk açılışta Windows uyarırsa: Daha fazla bilgi → Yine de çalıştır.</p>
+        </article>
+
+        <article class="device phone-card">
+          <p class="device-label" data-i18n="devices.phoneLabel">Telefon</p>
+          <h3 data-i18n="devices.phoneTitle">Cebinde.</h3>
+          <p data-i18n="devices.phoneBody">Tarayıcıda aç, ana ekranına ekle. Ayrı mağaza indirmesi yok; aynı hesap, aynı notlar.</p>
+          <ol class="phone-steps">
+            <li><span>01</span><b data-i18n="devices.phoneOne">YazNot'u aç.</b></li>
+            <li><span>02</span><b data-i18n="devices.phoneTwo">Ana ekrana ekle.</b></li>
+          </ol>
+          <p class="fine" data-i18n="devices.phoneNote">Android: Uygulamayı yükle · iPhone: Paylaş → Ana Ekrana Ekle</p>
+          <a class="text-link" href="app/" data-i18n="devices.phoneCta">Telefonda aç →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section guide" id="guide">
+    <div class="wrap guide-grid">
       <div class="book" aria-hidden="true">
         <div class="book-face">
           <img src="logo-mark.png" alt="" width="34" height="34">
@@ -220,23 +209,23 @@
           <p class="book-edition">1.0</p>
         </div>
       </div>
-      <div class="split-copy">
+      <div class="guide-copy">
         <p class="kicker" data-i18n="guide.kicker">Kılavuz</p>
-        <h2 data-i18n="guide.title">Takıldığında.</h2>
-        <p class="section-lead" data-i18n="guide.lead">Kılavuz uygulamanın içinde; PDF sürümü de burada. Bölümler, ses, dışa aktarma ve kısayollar.</p>
+        <h2 data-i18n="guide.title">İlk günden itibaren yanında.</h2>
+        <p class="section-lead" data-i18n="guide.lead">Kılavuz uygulamanın içinde; çevrimdışı. PDF sürümü de aynı dili konuşur.</p>
         <ul class="topics">
-          <li><span>01</span><b data-i18n="guide.topic1">Kurulum ve ilk not</b></li>
+          <li><span>01</span><b data-i18n="guide.topic1">İlk not ve bölümler</b></li>
           <li><span>02</span><b data-i18n="guide.topic2">Sesten metne</b></li>
-          <li><span>03</span><b data-i18n="guide.topic3">Kısayollar ve dışa aktarma</b></li>
+          <li><span>03</span><b data-i18n="guide.topic3">Yedek, paylaşım, kısayollar</b></li>
         </ul>
         <div class="guide-actions">
-          <a class="btn btn-line" href="kilavuz.pdf" target="_blank" rel="noopener">
+          <a class="btn btn-line" href="kilavuz.pdf" target="_blank" rel="noopener" data-guide-pdf>
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V5a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M13 3.5v5h5"/></svg>
-            <span data-i18n="guide.pdf">PDF'i aç</span>
+            <span data-i18n="guide.pdf">Kılavuzu aç</span>
           </a>
           <a class="text-link" href="app/" data-i18n="guide.open">Uygulamada aç →</a>
         </div>
-        <p class="fine" data-i18n="guide.pdfNote">PDF · 9 sayfa · Türkçe</p>
+        <p class="fine" data-i18n="guide.pdfNote">PDF · 7 sayfa · Türkçe</p>
       </div>
     </div>
   </section>
@@ -254,7 +243,7 @@
     <nav class="footer-nav" aria-label="Alt bağlantılar" data-i18n-aria="footer.navAria">
       <a href="app/" data-i18n="footer.app">Uygulama</a>
       <a href="YazNot-Setup-1.0.0.exe" download data-i18n="footer.download">Windows</a>
-      <a href="kilavuz.pdf" data-i18n="footer.guide">Kılavuz</a>
+      <a href="kilavuz.pdf" data-guide-pdf data-i18n="footer.guide">Kılavuz</a>
       <a href="https://github.com/cankaracas/YazNot" target="_blank" rel="noopener">GitHub ↗</a>
       <a href="https://github.com/cankaracas/YazNot/blob/main/ACKNOWLEDGEMENTS.md" target="_blank" rel="noopener" data-i18n="footer.ack">Teşekkürler</a>
       <a href="https://github.com/cankaracas/YazNot/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>

@@ -119,7 +119,7 @@ vercel/
 ├── index.html, style.css, site.js   çift dilli tanıtım sayfası
 ├── app/                             PWA
 ├── tanitim.mp4, tanitim-en.mp4      Türkçe ve İngilizce filmler
-├── kilavuz.pdf                      kullanım kılavuzu
+├── kilavuz.pdf, kilavuz-en.pdf      Türkçe ve İngilizce kılavuzlar
 └── YazNot-Setup-<sürüm>.exe         Windows kurulumu
 ```
 
@@ -143,7 +143,7 @@ sürümü yayınlar. Alan adını değiştirirsen Supabase yönlendirme adresler
 - [Supabase kurulumu](docs/SUPABASE.md)
 - [Gizlilik](docs/PRIVACY.md)
 - [Sesten metne](docs/STT.md)
-- [Kullanım kılavuzu (Türkçe)](docs/USER-GUIDE.tr.md)
+- [User guide (English)](docs/USER-GUIDE.md)\n- [Kullanım kılavuzu (Türkçe)](docs/USER-GUIDE.tr.md)
 - [Yol haritası](docs/ROADMAP.md)
 
 ## Teşekkür

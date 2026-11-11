@@ -46,13 +46,19 @@ fs.copyFileSync(
   path.join(ROOT, 'docs', 'YazNot-Kullanim-Kilavuzu.pdf'),
   path.join(OUT, 'kilavuz.pdf')
 );
+fs.copyFileSync(
+  path.join(ROOT, 'docs', 'YazNot-User-Guide.pdf'),
+  path.join(OUT, 'kilavuz-en.pdf')
+);
 
 // Tanıtım videosu: kökteki master varsa kopyala; yoksa üretilmiş dosyayı koru.
 const media = [
   ['YazNot-Tanitim.mp4', 'tanitim.mp4'],
   ['YazNot-Tanitim-Kapak.png', 'tanitim-kapak.png'],
   ['docs/media/YazNot-Tanitim.mp4', 'tanitim.mp4'],
-  ['docs/media/YazNot-Tanitim-Kapak.png', 'tanitim-kapak.png']
+  ['docs/media/YazNot-Tanitim-Kapak.png', 'tanitim-kapak.png'],
+  ['docs/media/YazNot-Tanitim-EN.mp4', 'tanitim-en.mp4'],
+  ['docs/media/YazNot-Tanitim-EN-Kapak.png', 'tanitim-en-kapak.png']
 ];
 const copied = new Set();
 for (const [srcName, destName] of media) {
@@ -64,7 +70,7 @@ for (const [srcName, destName] of media) {
     copied.add(destName);
   }
 }
-for (const destName of ['tanitim.mp4', 'tanitim-kapak.png']) {
+for (const destName of ['tanitim.mp4', 'tanitim-kapak.png', 'tanitim-en.mp4', 'tanitim-en-kapak.png']) {
   if (!copied.has(destName) && !fs.existsSync(path.join(OUT, destName))) {
     console.warn('UYARI: ' + destName + ' bulunamadı; site video olmadan üretildi.');
   }

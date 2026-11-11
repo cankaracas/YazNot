@@ -51,7 +51,7 @@ function refsOf(html) {
 
 console.log('Vercel klasörü');
 ['index.html', 'style.css', 'manifest.json', 'vercel.json', 'kilavuz.pdf',
- 'app-shot.png', 'app-shot-tr.png', 'logo-mark.png'].forEach(function (f) {
+ 'app-shot.png', 'app-shot-tr.png', 'logo-mark.png', 'kilavuz-en.pdf'].forEach(function (f) {
   check('dosya var: ' + f, exists(path.join(SITE, f)));
 });
 
@@ -64,6 +64,7 @@ console.log('\nLanding');
 check('PWA düğmesi /app/ adresine gider', (html.match(/href="app\/"/g) || []).length >= 3);
 check('Windows kurulum bağlantısı doğru', html.indexOf(installerName) !== -1);
 check('kılavuz PDF bağlantısı var', html.indexOf('href="kilavuz.pdf"') !== -1);
+check('İngilizce kılavuz bağlantısı var', html.indexOf('data-guide-pdf') !== -1 && exists(path.join(SITE, 'kilavuz-en.pdf')));
 check('kılavuz kapağı ve PDF bağlantısı var', html.indexOf('class="book"') !== -1 && html.indexOf('href="kilavuz.pdf"') !== -1);
 check('manifest bağlantısı var', html.indexOf('rel="manifest"') !== -1);
 check('ana ekrana ekleme adımları var', html.indexOf('Ana Ekrana Ekle') !== -1);
@@ -74,7 +75,7 @@ check('standalone modda uygulamaya yönlendirme var',
   html.indexOf('display-mode: standalone') !== -1 && html.indexOf("location.replace('app/')") !== -1);
 check('OAuth dönüşünde uygulamaya yönlendirme var',
   html.indexOf('access_token=') !== -1 && html.indexOf("location.replace('app/' + query + hash)") !== -1);
-check('landing stili yeni tasarımla aynı', css.indexOf('--paper: #f4efe5') !== -1);
+check('landing koyu paleti kullanır', css.indexOf('--bg: #0b0b0c') !== -1 && css.indexOf('--accent: #df6733') !== -1);
 check('responsive düzeni var', css.indexOf('@media (max-width: 860px)') !== -1);
 check('İngilizce film ve kapak var', exists(path.join(SITE, 'tanitim-en.mp4')) && exists(path.join(SITE, 'tanitim-en-kapak.png')));
 check('film dili değiştirir', html.indexOf('data-src-en="tanitim-en.mp4"') !== -1 && read(path.join(SITE, 'site.js')).indexOf('data-src-') !== -1);
@@ -110,6 +111,7 @@ check('app manifest ikonları mevcut', (appManifest.icons || []).every(function 
 }));
 check('app service worker var', sw.indexOf('CACHE_NAME') !== -1);
 check('app service worker kılavuzu önbelleğe alır', sw.indexOf('yaznot-kullanim-kilavuzu.pdf') !== -1);
+check('app service worker İngilizce kılavuzu önbelleğe alır', sw.indexOf('yaznot-user-guide.pdf') !== -1);
 check('app service worker STT çekirdeğini önbelleğe alır', sw.indexOf('stt/ds-core.js') !== -1);
 check('app service worker dil dosyalarını önbelleğe alır', sw.indexOf('i18n.js') !== -1 && sw.indexOf('guide-content.en.js') !== -1);
 check('app kılavuz PDF uygulamada', exists(path.join(APP, 'yaznot-kullanim-kilavuzu.pdf')));

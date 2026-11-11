@@ -33,7 +33,7 @@
       return invoke('save_text_file', { title: title, text: text, ext: ext });
     },
     exportPdf: function (title, html) { return invoke('export_pdf', { title: title, html: html }); },
-    saveGuidePdf: function () { return invoke('save_guide_pdf'); },
+    saveGuidePdf: function (lang) { return invoke('save_guide_pdf', { lang: lang || 'tr' }); },
     openExternal: function (url) { return invoke('open_external', { url: url }); },
     setMemoryLevel: function (low) { return invoke('set_memory_level', { low: !!low }); }
   };

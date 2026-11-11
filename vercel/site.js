@@ -3,29 +3,26 @@
 
   var dict = {
     'meta.title': {
-      tr: 'YazNot — yaz, konuş, her yerde devam et',
-      en: 'YazNot — write, speak, keep going'
+      tr: 'YazNot — yaz, konuş, gerisi kalsın',
+      en: 'YazNot — write, speak, let the rest wait'
     },
     'meta.description': {
-      tr: "Sade bir not defteri. Windows'ta çevrimdışı çalışır, telefonda uygulama gibi açılır; aynı hesapla notların her yerde aynı kalır.",
-      en: 'A quiet notebook. It works offline on Windows, opens like an app on your phone, and keeps the same notes everywhere.'
+      tr: "YazNot, aklındaki cümleyi kaybetmemek için tasarlanmış bir not defteri. Windows'ta çevrimdışı, telefonda uygulama gibi; aynı hesapla her cihazda aynı.",
+      en: 'YazNot is a notebook built so the sentence in your head does not get lost. Offline on Windows, an app on your phone, the same notebook everywhere.'
     },
-    'meta.ogTitle': {
-      tr: 'YazNot',
-      en: 'YazNot'
-    },
+    'meta.ogTitle': { tr: 'YazNot', en: 'YazNot' },
     'meta.ogDescription': {
-      tr: "Sade bir not defteri. Windows'ta çevrimdışı, telefonda uygulama gibi.",
-      en: 'A quiet notebook. Offline on Windows, an app on your phone.'
+      tr: 'Yaz. Konuş. Gerisi kalsın. Windows ve web için sakin bir not defteri.',
+      en: 'Write. Speak. Let the rest wait. A calm notebook for Windows and the web.'
     },
 
     skip: { tr: 'İçeriğe geç', en: 'Skip to content' },
 
     'nav.film': { tr: 'Tanıtım', en: 'Film' },
-    'nav.how': { tr: 'Nasıl', en: 'How it works' },
-    'nav.desktop': { tr: 'Windows', en: 'Windows' },
+    'nav.difference': { tr: 'Neden', en: 'Why' },
+    'nav.devices': { tr: 'Cihazlar', en: 'Devices' },
     'nav.guide': { tr: 'Kılavuz', en: 'Guide' },
-    'nav.open': { tr: 'Uygulamayı aç', en: 'Open the app' },
+    'nav.open': { tr: "YazNot'u aç", en: 'Open YazNot' },
     'nav.aria': { tr: 'Sayfa', en: 'Page' },
 
     'hero.kicker': { tr: 'YazNot 1.0 · Windows + web', en: 'YazNot 1.0 · Windows + web' },
@@ -34,11 +31,11 @@
       en: 'Write. Speak.<br><em>Let the rest wait.</em>'
     },
     'hero.lead': {
-      tr: "Sade bir not defteri. Windows'ta çevrimdışı çalışır, telefonda uygulama gibi açılır; aynı hesapla notların her yerde aynı kalır.",
-      en: 'A quiet notebook. It works offline on Windows, opens like an app on your phone, and keeps the same notes everywhere.'
+      tr: "Aklındaki cümleyi kaybetmemek için tasarlandı. Windows'ta çevrimdışı çalışır, telefonda ana ekranına eklenir; aynı hesapla her cihazda aynı defter.",
+      en: 'Built so the sentence in your head does not get lost. It runs offline on Windows, installs from the browser on your phone, and keeps the same notebook everywhere you sign in.'
     },
-    'hero.open': { tr: 'Web uygulamasını aç', en: 'Open the web app' },
-    'hero.openSub': { tr: 'Telefon + tarayıcı', en: 'Phone + browser' },
+    'hero.open': { tr: "YazNot'u aç", en: 'Open YazNot' },
+    'hero.openSub': { tr: 'Telefonda uygulama · tarayıcıda', en: 'An app on your phone · in your browser' },
     'hero.download': { tr: 'Windows için indir', en: 'Download for Windows' },
     'hero.downloadSub': { tr: '4,4 MB · ücretsiz', en: '4.4 MB · free' },
     'hero.meta': {
@@ -54,17 +51,17 @@
       en: 'Desktop · one notebook, two screens'
     },
 
-    'strip.aria': { tr: 'Özellikler', en: 'Features' },
-    'strip.sections': { tr: 'Bölümler ve gruplar', en: 'Sections and groups' },
-    'strip.speech': { tr: 'Cihazda sesten metne', en: 'On-device speech to text' },
-    'strip.export': { tr: 'PDF · TXT · Markdown', en: 'PDF · TXT · Markdown' },
-    'strip.offline': { tr: 'Çevrimdışı', en: 'Offline' },
+    'proof.aria': { tr: 'Özellikler', en: 'Features' },
+    'proof.local': { tr: 'Cihazda saklanır', en: 'Saved on your device' },
+    'proof.speech': { tr: 'Ses cihazdan çıkmaz', en: 'Speech never leaves it' },
+    'proof.backup': { tr: 'Her gün yedek', en: 'A backup every day' },
+    'proof.export': { tr: 'PDF · TXT · Markdown', en: 'PDF · TXT · Markdown' },
 
     'film.kicker': { tr: '37 saniye', en: '37 seconds' },
     'film.title': { tr: 'Kısa bir bakış.', en: 'A short look.' },
     'film.lead': {
-      tr: 'Ne yaptığını gösteren sessiz bir tur.',
-      en: 'A quiet tour of what it does.'
+      tr: 'Ne yaptığını gösteren sessiz bir tur. Süs değil, ürün.',
+      en: 'A quiet tour of what it does. Not decoration — the product.'
     },
     'film.aria': { tr: 'YazNot tanıtım videosu', en: 'YazNot introduction video' },
     'film.fallback': {
@@ -73,78 +70,80 @@
     },
     'film.meta': { tr: '37 sn · sessiz · 1080p', en: '37 sec · silent · 1080p' },
 
-    'how.kicker': { tr: 'Üç parça', en: 'Three parts' },
-    'how.title': { tr: 'Üç şey yeter.', en: 'Three things are enough.' },
-    'how.lead': {
-      tr: 'Yaz, konuş, sakla. Geri kalan ayrıntılar yolda kaybolmasın.',
-      en: 'Write, speak, keep. The small details should not get lost on the way.'
+    'difference.kicker': { tr: 'Neden farklı', en: 'Why it is different' },
+    'difference.title': {
+      tr: 'Düşünmeyi bölmeyen bir defter.',
+      en: 'A notebook that does not interrupt the thought.'
     },
-    'how.oneTitle': { tr: 'Yaz', en: 'Write' },
-    'how.oneBody': {
-      tr: 'Bölümler, gruplar ve kitap gibi okuma. Düşünceni düzenli tut; arama ve odak modu gerisini halleder.',
-      en: 'Sections, groups and a reader view. Keep the thought; search and focus mode handle the rest.'
+    'difference.lead': {
+      tr: "YazNot'u daha çok özellik için değil, daha az şeyi kaçırmak için yaptık.",
+      en: 'We built YazNot to lose fewer things, not to add more features.'
     },
-    'how.twoTitle': { tr: 'Konuş', en: 'Speak' },
-    'how.twoBody': {
-      tr: 'Türkçe ve İngilizce konuşmayı cihazında yazıya çevir. Kayıt sunucuya gitmez.',
-      en: 'Turn Turkish and English speech into text on your device. Audio never leaves it.'
+    'difference.oneTitle': { tr: 'Önce cihaz', en: 'Device first' },
+    'difference.oneBody': {
+      tr: 'Yazdığın an bu cihazda kaydedilir. İnternet yokken de devam edersin; bağlantı gelince değişiklikler sessizce eşitlenir.',
+      en: 'A note is saved on this device the moment you write it. Keep going without a connection; changes settle quietly when it returns.'
     },
-    'how.threeTitle': { tr: 'Sakla', en: 'Keep' },
-    'how.threeBody': {
-      tr: 'Aynı hesap, her cihaz. Günlük yedek, çevrimdışı çalışma ve PDF / TXT / Markdown çıkışı.',
-      en: 'One account, every device. Daily backups, offline writing and PDF / TXT / Markdown export.'
+    'difference.twoTitle': { tr: 'Ses dışarı çıkmaz', en: 'Speech stays here' },
+    'difference.twoBody': {
+      tr: 'Türkçe ve İngilizce konuşma, cihazındaki modelle yazıya dönüşür. Kayıt bir sunucuya gönderilmez; model bir kez indirilir, sonra çevrimdışı çalışır.',
+      en: 'Turkish and English speech become text with a model on your device. Audio is never sent to a server; the model downloads once, then works offline.'
+    },
+    'difference.threeTitle': { tr: 'Sade, ama eksik değil', en: 'Calm, not stripped' },
+    'difference.threeBody': {
+      tr: 'Odak modu, kitap gibi okuma, toplu taşıma, geri dönüşüm ve günlük yedek. Ayrıntılar menülerde; yazarken önünde değil.',
+      en: 'Focus mode, a reader view, bulk move, trash and daily backups. The details live in menus, not in the way of your writing.'
     },
 
-    'desktop.kicker': { tr: 'Windows', en: 'Windows' },
-    'desktop.receiptAria': { tr: 'Windows kurulum bilgileri', en: 'Windows install details' },
-    'desktop.title': { tr: 'Masaüstünde.', en: 'On your desktop.' },
-    'desktop.lead': {
-      tr: '4,4 MB\'lık tek kurulum. İnternet olmadan yaz, bağlantı gelince eşitle.',
+    'devices.kicker': { tr: 'Her yerde', en: 'Everywhere' },
+    'devices.title': { tr: 'Aynı defter, iki hayat.', en: 'One notebook, two kinds of days.' },
+    'devices.lead': {
+      tr: 'Masaüstünde uzun yazılar, telefonda hızlı notlar. İkisi aynı hesapta buluşur.',
+      en: 'Long writing on the desktop, quick notes on the phone. Both meet in the same account.'
+    },
+    'devices.desktopLabel': { tr: 'Windows', en: 'Windows' },
+    'devices.desktopTitle': { tr: 'Masaüstünde.', en: 'On your desktop.' },
+    'devices.desktopBody': {
+      tr: "4,4 MB'lık tek kurulum. İnternet olmadan yaz; bağlantı gelince eşitle.",
       en: 'One 4.4 MB install. Write offline; sync when the connection returns.'
     },
-    'desktop.download': { tr: "YazNot'u indir", en: 'Download YazNot' },
-    'desktop.downloadSub': { tr: 'Windows 10/11 · 64-bit', en: 'Windows 10/11 · 64-bit' },
-    'desktop.note': {
+    'devices.desktopOne': { tr: 'Odak modu ve geniş editör', en: 'Focus mode and a wide editor' },
+    'devices.desktopTwo': { tr: 'Yerel PDF dışa aktarma', en: 'Native PDF export' },
+    'devices.desktopThree': { tr: 'Günlük otomatik yedek', en: 'A daily automatic backup' },
+    'devices.desktopCta': { tr: 'Windows için indir', en: 'Download for Windows' },
+    'devices.desktopCtaSub': { tr: '4,4 MB · Windows 10/11', en: '4.4 MB · Windows 10/11' },
+    'devices.desktopNote': {
       tr: 'İlk açılışta Windows uyarırsa: Daha fazla bilgi → Yine de çalıştır.',
       en: 'If Windows warns on first launch: More info → Run anyway.'
     },
-    'desktop.os': { tr: 'İşletim sistemi', en: 'Operating system' },
-    'desktop.arch': { tr: 'Mimari', en: 'Architecture' },
-    'desktop.runtime': { tr: 'Çalışma ortamı', en: 'Runtime' },
-    'desktop.offlineLabel': { tr: 'Çevrimdışı', en: 'Offline' },
-    'desktop.offlineValue': { tr: 'Evet', en: 'Yes' },
-    'desktop.receiptCta': { tr: 'Kurulumu indir', en: 'Download the installer' },
-    'desktop.size': { tr: '4,4<span>MB</span>', en: '4.4<span>MB</span>' },
-
-    'phone.kicker': { tr: 'Telefon', en: 'Phone' },
-    'phone.title': { tr: 'Cebinde.', en: 'In your pocket.' },
-    'phone.lead': {
-      tr: 'Web uygulamasını aç, tarayıcı menüsünden ana ekrana ekle. Mağaza yok, ayrı indirme yok.',
-      en: 'Open the web app, then add it to your home screen from the browser menu. No store, no second download.'
+    'devices.phoneLabel': { tr: 'Telefon', en: 'Phone' },
+    'devices.phoneTitle': { tr: 'Cebinde.', en: 'In your pocket.' },
+    'devices.phoneBody': {
+      tr: 'Tarayıcıda aç, ana ekranına ekle. Ayrı mağaza indirmesi yok; aynı hesap, aynı notlar.',
+      en: 'Open it in the browser, add it to your home screen. No store download; the same account, the same notes.'
     },
-    'phone.step1': { tr: 'Web uygulamasını aç.', en: 'Open the web app.' },
-    'phone.step2': { tr: 'Ana ekrana ekle.', en: 'Add it to your home screen.' },
-    'phone.note': {
+    'devices.phoneOne': { tr: "YazNot'u aç.", en: 'Open YazNot.' },
+    'devices.phoneTwo': { tr: 'Ana ekrana ekle.', en: 'Add it to your home screen.' },
+    'devices.phoneNote': {
       tr: 'Android: Uygulamayı yükle · iPhone: Paylaş → Ana Ekrana Ekle',
       en: 'Android: Install app · iPhone: Share → Add to Home Screen'
     },
-    'phone.cta': { tr: 'Uygulamayı aç →', en: 'Open the app →' },
+    'devices.phoneCta': { tr: 'Telefonda aç →', en: 'Open on your phone →' },
 
     'guide.kicker': { tr: 'Kılavuz', en: 'Guide' },
-    'guide.title': { tr: 'Takıldığında.', en: 'When you need a hand.' },
+    'guide.title': { tr: 'İlk günden itibaren yanında.', en: 'A hand from the first day.' },
     'guide.lead': {
-      tr: 'Kılavuz uygulamanın içinde; PDF sürümü de burada. Bölümler, ses, dışa aktarma ve kısayollar.',
-      en: 'The guide ships inside the app; the PDF is here too. Sections, speech, export and shortcuts.'
+      tr: 'Kılavuz uygulamanın içinde; çevrimdışı. PDF sürümü de aynı dili konuşur.',
+      en: 'The guide lives inside the app, offline. The PDF speaks the same language.'
     },
     'guide.cover': { tr: 'Kullanım kılavuzu', en: 'User guide' },
-    'guide.topic1': { tr: 'Kurulum ve ilk not', en: 'Setup and the first note' },
+    'guide.topic1': { tr: 'İlk not ve bölümler', en: 'The first note and sections' },
     'guide.topic2': { tr: 'Sesten metne', en: 'Speech to text' },
-    'guide.topic3': { tr: 'Kısayollar ve dışa aktarma', en: 'Shortcuts and export' },
-    'guide.pdf': { tr: "PDF'i aç", en: 'Open the PDF' },
+    'guide.topic3': { tr: 'Yedek, paylaşım, kısayollar', en: 'Backup, sharing, shortcuts' },
+    'guide.pdf': { tr: 'Kılavuzu aç', en: 'Open the guide' },
     'guide.open': { tr: 'Uygulamada aç →', en: 'Open in the app →' },
-    'guide.pdfNote': { tr: 'PDF · 9 sayfa · Türkçe', en: 'PDF · 9 pages · Turkish' },
+    'guide.pdfNote': { tr: 'PDF · 7 sayfa · Türkçe', en: 'PDF · 7 pages · English' },
 
-    'footer.navAria': { tr: 'Alt bağlantılar', en: 'Footer links' },
     'footer.tagline': {
       tr: 'Notların senin. İstediğin cihazdan, istediğin zaman.',
       en: 'Your notes are yours. From any device, at any time.'
@@ -153,7 +152,8 @@
     'footer.download': { tr: 'Windows', en: 'Windows' },
     'footer.guide': { tr: 'Kılavuz', en: 'Guide' },
     'footer.ack': { tr: 'Teşekkürler', en: 'Acknowledgements' },
-    'footer.colophon': { tr: 'Açık kaynak · MIT lisansı', en: 'Open source · MIT licence' }
+    'footer.colophon': { tr: 'Açık kaynak · MIT lisansı', en: 'Open source · MIT licence' },
+    'footer.navAria': { tr: 'Alt bağlantılar', en: 'Footer links' }
   };
 
   var STORAGE_KEY = 'yaznot_site_lang';
@@ -163,11 +163,6 @@
     return lang === 'en' ? 'en' : 'tr';
   }
 
-  function setText(el, value) {
-    if (value == null) return;
-    el.textContent = value;
-  }
-
   function apply(lang) {
     if (lang !== 'en' && lang !== 'tr') lang = 'tr';
     document.documentElement.lang = lang;
@@ -175,7 +170,7 @@
 
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var item = dict[el.getAttribute('data-i18n')];
-      if (item) setText(el, item[lang]);
+      if (item) el.textContent = item[lang];
     });
     document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
       var item = dict[el.getAttribute('data-i18n-html')];
@@ -197,6 +192,16 @@
     if (ogTitle) ogTitle.setAttribute('content', dict['meta.ogTitle'][lang]);
     var ogDescription = document.querySelector('meta[property="og:description"]');
     if (ogDescription) ogDescription.setAttribute('content', dict['meta.ogDescription'][lang]);
+
+    document.querySelectorAll('[data-set-lang]').forEach(function (button) {
+      var active = button.getAttribute('data-set-lang') === lang;
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      button.classList.toggle('active', active);
+    });
+
+    document.querySelectorAll('[data-guide-pdf]').forEach(function (link) {
+      link.setAttribute('href', lang === 'en' ? 'kilavuz-en.pdf' : 'kilavuz.pdf');
+    });
 
     var shot = document.querySelector('.browser img');
     if (shot) {
@@ -222,12 +227,6 @@
         try { video.load(); } catch (e) {}
       }
     }
-
-    document.querySelectorAll('[data-set-lang]').forEach(function (button) {
-      var active = button.getAttribute('data-set-lang') === lang;
-      button.setAttribute('aria-pressed', active ? 'true' : 'false');
-      button.classList.toggle('active', active);
-    });
 
     try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
     try {

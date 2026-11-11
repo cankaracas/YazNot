@@ -16,7 +16,7 @@ device; audio never leaves the machine.
 
 - **Web app:** [yaznot.vercel.app/app](https://yaznot.vercel.app/app/)
 - **Windows:** [YazNot-Setup-1.0.0.exe](https://yaznot.vercel.app/YazNot-Setup-1.0.0.exe) (4.4 MB)
-- **Guide:** [PDF](https://yaznot.vercel.app/kilavuz.pdf) · the same guide is built into the app
+- **Guide:** [PDF](https://yaznot.vercel.app/kilavuz-en.pdf) · the same guide is built into the app
 - **Source:** [github.com/cankaracas/YazNot](https://github.com/cankaracas/YazNot)
 
 ## What it does
@@ -120,7 +120,7 @@ vercel/
 ├── index.html, style.css, site.js   bilingual landing page
 ├── app/                             PWA
 ├── tanitim.mp4, tanitim-en.mp4      Turkish and English films
-├── kilavuz.pdf                      user guide
+├── kilavuz.pdf, kilavuz-en.pdf      Turkish and English guides
 └── YazNot-Setup-<version>.exe       Windows installer
 ```
 
@@ -144,7 +144,8 @@ same build. After changing the domain, add it to Supabase's redirect URLs.
 - [Supabase setup](docs/SUPABASE.md)
 - [Privacy](docs/PRIVACY.md)
 - [Speech-to-text](docs/STT.md)
-- [User guide (Turkish)](docs/USER-GUIDE.tr.md)
+- [User guide (English)](docs/USER-GUIDE.md)
+- [Kullanım kılavuzu (Türkçe)](docs/USER-GUIDE.tr.md)
 - [Roadmap](docs/ROADMAP.md)
 
 ## Acknowledgements

@@ -755,11 +755,12 @@
   }
 
   // Kullanım kılavuzu PDF'i: masaüstünde kaydetme penceresi, PWA'da indirme.
-  function downloadGuidePdf() {
+  function downloadGuidePdf(lang) {
     try {
+      var english = lang === 'en';
       var a = document.createElement('a');
-      a.href = 'yaznot-kullanim-kilavuzu.pdf';
-      a.download = 'YazNot-Kullanim-Kilavuzu.pdf';
+      a.href = english ? 'yaznot-user-guide.pdf' : 'yaznot-kullanim-kilavuzu.pdf';
+      a.download = english ? 'YazNot-User-Guide.pdf' : 'YazNot-Kullanim-Kilavuzu.pdf';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -792,15 +793,16 @@
     });
   }
 
-  function saveGuidePdf() {
+  function saveGuidePdf(lang) {
+    var language = lang === 'en' ? 'en' : 'tr';
     if (nativeBridge && nativeBridge.saveGuidePdf) {
-      return Promise.resolve(nativeBridge.saveGuidePdf()).then(function (res) {
+      return Promise.resolve(nativeBridge.saveGuidePdf(language)).then(function (res) {
         if (res && res.ok) return res;
         if (res && !res.unsupported) return res;
-        return downloadGuidePdf();
+        return downloadGuidePdf(language);
       });
     }
-    return downloadGuidePdf();
+    return downloadGuidePdf(language);
   }
 
   // Yerel yazdırma motoru yoksa (web veya desteklenmeyen platform): gizli iframe

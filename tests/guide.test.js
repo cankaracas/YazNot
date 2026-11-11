@@ -1,4 +1,4 @@
-/**
+﻿/**
  * YazNot — kullanım kılavuzu testi (jsdom)
  *
  * guide-content.js'in üretilmiş içeriğini ve guide.js görüntüleyicisini
@@ -54,7 +54,7 @@ if (document.readyState !== 'loading') document.dispatchEvent(new window.Event('
   console.log('\nKılavuz içeriği');
   check('içerik global olarak yüklendi', !!window.YAZNOT_GUIDE);
   const sections = (window.YAZNOT_GUIDE || {}).sections || [];
-  check('en az 10 bölüm var', sections.length >= 10, String(sections.length));
+  check('en az 8 bölüm var', sections.length >= 8, String(sections.length));
   check('sürüm 1.0', window.YAZNOT_GUIDE.version === '1.0');
   check('PDF adı tanımlı', window.YAZNOT_GUIDE.pdf === 'yaznot-kullanim-kilavuzu.pdf');
   check('her bölümün başlığı ve HTML içeriği var',

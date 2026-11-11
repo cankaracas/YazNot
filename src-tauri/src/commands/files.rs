@@ -5,6 +5,7 @@ use crate::paths;
 use crate::results::{SaveResult, SimpleResult};
 
 const GUIDE_PDF: &[u8] = include_bytes!("../../../ui/yaznot-kullanim-kilavuzu.pdf");
+const GUIDE_PDF_EN: &[u8] = include_bytes!("../../../ui/yaznot-user-guide.pdf");
 
 #[tauri::command(async)]
 pub fn save_text_file(
@@ -47,20 +48,24 @@ pub fn save_text_file(
 
 /// Kılavuz PDF'i uygulamanın içinden kopyalanır; internet gerekmez.
 #[tauri::command(async)]
-pub fn save_guide_pdf(app: AppHandle, window: WebviewWindow) -> SaveResult {
+pub fn save_guide_pdf(
+    app: AppHandle,
+    window: WebviewWindow,
+    lang: Option<String>,
+) -> SaveResult {
     if let Err(err) = require_main(&window) {
         return SaveResult::error(err);
     }
-    let Some(path) = save_dialog(
-        &app,
-        "Kullanım Kılavuzunu Kaydet",
-        "YazNot-Kullanim-Kilavuzu.pdf",
-        "PDF",
-        &["pdf"],
-    ) else {
+    let english = lang.as_deref() == Some("en");
+    let (bytes, title, file_name): (&[u8], &str, &str) = if english {
+        (GUIDE_PDF_EN, "Save the user guide", "YazNot-User-Guide.pdf")
+    } else {
+        (GUIDE_PDF, "Kullanım Kılavuzunu Kaydet", "YazNot-Kullanim-Kilavuzu.pdf")
+    };
+    let Some(path) = save_dialog(&app, title, file_name, "PDF", &["pdf"]) else {
         return SaveResult::canceled();
     };
-    match std::fs::write(&path, GUIDE_PDF) {
+    match std::fs::write(&path, bytes) {
         Ok(()) => SaveResult::ok(&path),
         Err(err) => SaveResult::error(err.to_string()),
     }
